@@ -1,7 +1,7 @@
 # Site metadata.
 
 # Canonical URL
-url: https://pulse.cio.gov
+url: https://robbi5.github.io/pulse
 
 name: Kann .DE HTTPS?
 title: "The pulse of german goverment domains"
@@ -10,10 +10,10 @@ description: "Bekomme ich eine sichere Verbindung zu einer Behördenwebsite?"
 # When the data we used was generated. Manually updated for now.
 data:
   # The scan date.
-  scan: 2016-02-12
+  scan: 2016-03-05
 
   # URL where we download the .gov domain list from.
-  domains_url: https://raw.githubusercontent.com/GSA/data/gh-pages/dotgov-domains/2016-01-19-federal.csv
+  domains_url: https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv
 
   # The export date for the .gov domain list. Increasingly non-relevant.
-  domains: 2015-11-03
+  domains: 2016-03-05
