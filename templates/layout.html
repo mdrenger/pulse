@@ -7,8 +7,6 @@
 <meta name="description" content="{% block description %}{% endblock %}">
 <meta property="og:description" content="{{ self.description() }}" />
 
-<link rel="canonical" href="{{ site.url }}{{ request.path }}" />
-
 {% include 'includes/head.html' %}
 </head>
 
@@ -38,7 +36,7 @@
 
 {% include 'includes/reporting.html' %}
 
-<script src="/static/js/main.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 </html>

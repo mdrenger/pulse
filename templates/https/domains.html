@@ -11,8 +11,8 @@
 <section id="main-content" class="white-bkg">
   <nav class="tab-menu">
     <span class="tab">Nach Domain</span>
-    <a href="/https/agencies/" class="tab">Nach Behörde</a>
-    <a href="/https/guidance/" class="tab">Info</a>
+    <a href="{{ url_for('https_agencies') }}" class="tab">Nach Behörde</a>
+    <a href="{{ url_for('https_guide') }}" class="tab">Info</a>
   </nav>
   <div class="wrapper">
     <table class="domain responsive https">
@@ -33,6 +33,6 @@
   </div>
 </section>
 
-<script src="/static/js/https/domains.js?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
+<script src="{{ url_for('static', filename='js/https/domains.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
 
 {% endblock %}

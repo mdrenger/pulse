@@ -2,14 +2,14 @@
     <nav>
         <div id="main-nav">
             <h1 id="branding">
-                <a href="/">{{ site.name }}</a>
+                <a href="{{ url_for('index') }}">{{ site.name }}</a>
             </h1>
             <ul id="right-nav">
                 <li>
-                    <a href="/https/domains/">Ergebnisse</a>
+                    <a href="{{ url_for('https_domains') }}">Ergebnisse</a>
                 </li>
                 <li>
-                    <a href="/about/">Über diese Seite</a>
+                    <a href="{{ url_for('about') }}">Über diese Seite</a>
                 </li>
             </ul>
             <a href="#" id="menu-btn">MENU</a>
@@ -19,12 +19,12 @@
 
     <nav id="menu-content">
       <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="{{ url_for('index') }}">{{ site.name }}</a></li>
         <li>
-            <a href="/https/domains/">Ergebnisse</a>
+            <a href="{{ url_for('https_domains') }}">Ergebnisse</a>
         </li>
         <li>
-            <a href="/about/">Über diese Seite</a>
+            <a href="{{ url_for('about') }}">Über diese Seite</a>
         </li>
     </ul>
     </nav>

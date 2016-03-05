@@ -32,10 +32,10 @@
         .append("g")
         .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")")
         .on("click", function(d,i) {
-            location.href = "/https/domains/";
+            location.href = "{{ url_for('https_domains') }}";
         });
 
-    d3.json("/data/reports/https.json", function (error, data) {
+    d3.json("{{ url_for('report', report_name='https') }}", function (error, data) {
 
         // calculate % client-side
         var uses = Math.round((data.uses / data.eligible) * 100);
