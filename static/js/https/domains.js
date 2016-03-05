@@ -16,24 +16,24 @@ $(document).ready(function () {
 
   var names = {
     uses: {
-      "-1": "No",
-      0: "No",
-      1: "Yes", // (with certificate chain issues)
-      2: "Yes"
+      "-1": "Nein",
+      0: "Nein",
+      1: "Ja", // (with certificate chain issues)
+      2: "Ja"
     },
 
     enforces: {
       0: "", // N/A (no HTTPS)
-      1: "No", // Present, not default
-      2: "Yes", // Defaults eventually to HTTPS
-      3: "Yes" // Defaults eventually + redirects immediately
+      1: "Nein", // Present, not default
+      2: "Ja", // Defaults eventually to HTTPS
+      3: "Ja" // Defaults eventually + redirects immediately
     },
 
     hsts: {
       "-1": "", // N/A
-      0: "No", // No
-      1: "Yes", // HSTS on only that domain
-      2: "Yes", // HSTS on subdomains
+      0: "Nein", // No
+      1: "Ja", // HSTS on only that domain
+      2: "Ja", // HSTS on subdomains
       3: "Yes, and preload-ready", // HSTS on subdomains + preload flag
       4: "Yes, and preloaded" // In the HSTS preload list
     },
