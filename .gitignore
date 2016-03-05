@@ -24,3 +24,6 @@ pip-delete-this-directory.txt
 pip-selfcheck.json
 
 todo.txt
+
+build/
+!build/.keep

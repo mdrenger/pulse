@@ -94,9 +94,11 @@ class Domain:
       (where("agency_slug") == agency_slug)
     )
 
+  def all():
+    return db.table('domains').all()
+
   def db():
     return db
-
 
   def to_csv(domains, report_type):
     output = io.StringIO()
