@@ -2,12 +2,24 @@
 
 Dieses Projekt bietet eine Übersicht, ob Domains deutscher Behördern das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
 
-Entstanden auf dem [OpenDataDay 2016](http://de.opendataday.org).
+Entstanden am [OpenDataDay 2016](http://de.opendataday.org).
 Domains aus dem [german-gov-domains](https://github.com/robbi5/german-gov-domains)-Datensatz.
 
 Basierend auf [the pulse of the federal .gov webspace (pulse.cio.gov)](https://pulse.cio.gov) von [18F](https://18f.gsa.gov)/[General Services Administration](http://gsa.gov).
 
-Dieses Repository ist somit ein Fork von [18F/pulse](https://github.com/18F/pulse) - die originale Readme hängt unten an:
+Dieses Repository ist somit ein Fork von [18F/pulse](https://github.com/18F/pulse) - die originale Readme hängt unten an.
+
+### Neue Domains hinzufügen/Neu scannen:
+
+Die Domains am besten dem [german-gov-domains](https://github.com/robbi5/german-gov-domains)-Datensatz hinzufügen.
+
+Diesen unter `data/domains.csv` ablegen.
+
+Danach lässt sich mit Hilfe des `domain-scan`-Containers flott neue scan-Ergebnisse erzeugen:
+
+    docker run -v $(pwd)/data/output/scan:/data 18fgsa/domain-scan --scan=inspect --output=/data https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv
+
+Diese müssen danach noch mit `make update` in `data/db.json` konvertiert werden.
 
 ---
 
