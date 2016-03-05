@@ -110,14 +110,14 @@ def load_domain_data():
         continue
 
       domain_name = row[0].lower().strip()
-      domain_type = row[1].strip()
-      agency_name = row[2].strip()
+      domain_type = "<domaintypedummy>"
+      agency_name = row[1].strip()
       agency_slug = slugify.slugify(agency_name)
-      branch = branch_for(agency_name)
+      branch = "<branchdummy>"
 
       # Exclude cities, counties, tribes, etc.
-      if domain_type != "Federal Agency":
-        continue
+      #if domain_type != "Federal Agency":
+      #  continue
 
       # There are a few erroneously marked non-federal domains.
       if branch == "non-federal":
@@ -564,7 +564,7 @@ def print_report():
     for key in report[report_type].keys():
       if key == "eligible":
         continue
-      print("%s: %i" % (key, percent(report[report_type][key], eligible)))
+      print("%s: %i" % (key, 0))
     print()
 
 

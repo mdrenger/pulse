@@ -57,7 +57,7 @@ def run():
   # Kick off domain-scan.
   print("[%s] Kicking off a scan." % the_date)
   print()
-  scan()
+  #scan()
   print()
   print("[%s] Domain-scan complete." % the_date)
 
@@ -71,7 +71,7 @@ def run():
   # 3. Upload data to S3.
   print("[%s] Syncing processed data to S3." % the_date)
   print()
-  upload(the_date)
+  #upload(the_date)
   print()
   print("[%s] Processed data now in S3." % the_date)
 
