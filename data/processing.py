@@ -192,27 +192,28 @@ def load_scan_data(domains):
 
   # Now, analytics measurement.
   headers = []
-  with open(os.path.join(INPUT_SCAN_DATA, "analytics.csv"), newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
+  if os.path.exists(os.path.join(INPUT_SCAN_DATA, "analytics.csv")):
+    with open(os.path.join(INPUT_SCAN_DATA, "analytics.csv"), newline='') as csvfile:
+      for row in csv.reader(csvfile):
+        if (row[0].lower() == "domain"):
+          headers = row
+          continue
 
-      domain = row[0].lower()
-      if not domains.get(domain):
-        # print("[analytics] Skipping %s, not a federal domain from domains.csv." % domain)
-        continue
+        domain = row[0].lower()
+        if not domains.get(domain):
+          # print("[analytics] Skipping %s, not a federal domain from domains.csv." % domain)
+          continue
 
-      # If it didn't appear in the inspect data, skip it, we need this.
-      # if not domains[domain].get('inspect'):
-      #   print("[analytics] Skipping %s, did not appear in inspect.csv." % domain)
-      #   continue
+        # If it didn't appear in the inspect data, skip it, we need this.
+        # if not domains[domain].get('inspect'):
+        #   print("[analytics] Skipping %s, did not appear in inspect.csv." % domain)
+        #   continue
 
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
+        dict_row = {}
+        for i, cell in enumerate(row):
+          dict_row[headers[i]] = cell
 
-      scan_data[domain]['analytics'] = dict_row
+        scan_data[domain]['analytics'] = dict_row
 
   return scan_data
 
