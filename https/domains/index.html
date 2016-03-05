@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="de">
+<head>
+<title>HTTPS in the federal government - All domains</title>
+<meta property="og:title" content="The pulse of german goverment domains | HTTPS in the federal government - All domains" />
+
+<meta name="description" content="How federal government domains are doing at deploying HTTPS.">
+<meta property="og:description" content="How federal government domains are doing at deploying HTTPS." />
+
+<link rel="canonical" href="https://pulse.cio.gov/https/domains/" />
+
+<!-- Basic Page Needs
+================================================== -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Mobile Specific Metas
+================================================== -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!-- Favicons
+================================================== -->
+<!-- 128x128 -->
+<link rel="shortcut icon" type="image/ico" href="/static/images/favicons/favicon.ico" />
+<link rel="icon" type="image/png" href="/static/images/favicons/favicon.png" />
+
+<!-- 192x192, as recommended for Android
+https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chrome-39-for-Android
+-->
+<link rel="icon" type="image/png" sizes="192x192" href="/static/images/favicons/pulse-192.png" />
+
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/static/images/favicons/pulse-57.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/images/favicons/pulse-72.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/images/favicons/pulse-114.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/images/favicons/pulse-144.png">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/normalize.min.css">
+<link rel="stylesheet" href="/static/css/google-fonts.css">
+<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/dataTables.responsive.css">
+<link rel="stylesheet" href="/static/css/main.css?201603065151554">
+
+<!-- Scripts
+================================================== -->
+<script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="/static/js/vendor/jquery.min.js"></script>
+<script src="/static/js/vendor/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/vendor/DataTables-1.10.6/media/js/dataTables.responsive.js"></script>
+<script src="/static/js/vendor/dataTables.lengthLinks.js"></script>
+<script src="/static/js/dataTables.downloads.js"></script>
+<script src="/static/js/vendor/d3.min.js"></script>
+<script src="/static/js/vendor/querystring.js"></script>
+<script src="/static/js/utils.js?201603065151554"></script>
+</head>
+
+<body id="https">
+<a id="skipnav" href="#content">Zum Inhalt</a>
+<!--[if lte IE 9]>
+  <section>
+    <h2>Your browser is out of date.</h2>
+    <p style="color: #000;">
+      You are using an older version of Internet Explorer. For a better
+      experience, please update your browser to the latest version.
+    </p>
+    <p>
+      <a target="_blank"
+         href="http://browsehappy.com/">Learn how to update your browser.</a>
+    </p>
+  </section>
+<![endif]-->
+
+<header class="site-header">
+    <nav>
+        <div id="main-nav">
+            <h1 id="branding">
+                <a href="/">Kann .DE HTTPS?</a>
+            </h1>
+            <ul id="right-nav">
+                <li>
+                    <a href="/https/domains/">Ergebnisse</a>
+                </li>
+                <li>
+                    <a href="/about/">Über diese Seite</a>
+                </li>
+            </ul>
+            <a href="#" id="menu-btn">MENU</a>
+        </div>
+
+    </nav>
+
+    <nav id="menu-content">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li>
+            <a href="/https/domains/">Ergebnisse</a>
+        </li>
+        <li>
+            <a href="/about/">Über diese Seite</a>
+        </li>
+    </ul>
+    </nav>
+
+    <div class="overlay"></div>
+
+</header>
+
+
+<section id="content">
+  
+
+<header class="chart">
+
+  <div class="donut">
+    <div class="https_chart"></div>
+    <script type="text/javascript">
+(function() {
+    var chart = d3.select(".https_chart");
+    var elem = chart[0][0];
+
+    var width = chart.attr("data-width");
+    if (width == null)
+        width = getComputedStyle(elem.parentElement).width;
+    width = parseInt(width);
+
+    var height = width * 1.2;
+
+    var radius = Math.min(width, height) / 2;
+
+    var color = d3.scale.ordinal()
+        .range(["#7ED321", "#FFFFFF"]);
+
+    var arc = d3.svg.arc()
+        .outerRadius(radius)
+        .innerRadius(radius - 40);
+
+    var pie = d3.layout.pie()
+        .value(function (d) {
+        return d.value;
+    })
+        .sort(null);
+
+    chart = chart
+        .append('svg')
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")")
+        .on("click", function(d,i) {
+            location.href = "/https/domains/";
+        });
+
+    d3.json("/data/reports/https.json", function (error, data) {
+
+        // calculate % client-side
+        var uses = Math.round((data.uses / data.eligible) * 100);
+
+        var pie_data = [
+            {status: 'active', value: uses},
+            {status: 'inactive', value: (100-uses)},
+        ]
+
+        var g = chart.selectAll(".arc")
+            .data(pie(pie_data))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .style("fill", function(d) {
+            return color(d.data.status);
+        })
+            .transition().delay(function(d, i) {
+            return i *400;
+        }).duration(400)
+            .attrTween('d', function(d) {
+            var i = d3.interpolate(d.startAngle+ 0.1, d.endAngle);
+            return function(t) {
+                d.endAngle = i(t);
+                return arc(d);
+            }
+        });
+
+        g.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "total-value")
+            .attr("dy", "0.2em")
+            .attr("fill", "white")
+            .text(function(d){
+                return "" + pie_data[0].value + "%";
+        });
+
+        g.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "total-desc")
+            .attr("dy", "2.5em")
+            .attr("fill", "white")
+            .text(function(d) {
+                return "BIETEN HTTPS";
+        });
+
+
+    });
+})();
+</script>
+  </div>
+
+  <div class="description">
+    <h1>Sicheres HTTP (HTTPS)</h1>
+    <h2>Letzter Update: <strong>12. February 2016</strong></h2>
+    <p>
+       Diese Daten zeigen, ob Domains deutscher Behördern das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
+       HTTPS ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
+       So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Publikationen/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
+    </p>
+    <p>
+      Auch wenn HTTPS eingesetzt wird, bedeutet das nicht, dass eine Webseite nicht trotzdem gehackt werden kann. Für mehr Informationen, was HTTPS tut (und was es nicht tun kann), <a href="https://https.cio.gov/faq/">besuche die HTTPS FAQ</a> (in Englisch).
+    </p>
+  </div>
+
+</header>
+
+<section id="main-content" class="white-bkg">
+  <nav class="tab-menu">
+    <span class="tab">Nach Domain</span>
+    <a href="/https/agencies/" class="tab">Nach Behörde</a>
+    <a href="/https/guidance/" class="tab">Info</a>
+  </nav>
+  <div class="wrapper">
+    <table class="domain responsive https">
+        <thead>
+          <tr>
+            <th class="all">Domain</th>
+            <th class="never">Canonical</th>
+            <th class="never">Behörde</th>
+            <th class="min-tablet">Bietet HTTPS</th>
+            <th class="min-tablet">Erzwingt HTTPS</th>
+            <th class="min-tablet-l">Strict Transport Security (HSTS)</th>
+            <th class="min-tablet-l">SSL Labs Grade</th>
+            <th class="none" scope="col">Details</th>
+            <th class="none">TLS Issues</th>
+          </tr>
+        </thead>
+    </table>
+  </div>
+</section>
+
+<script src="/static/js/https/domains.js?201603065151554"></script>
+
+
+</section>
+
+<footer>
+	<div class="wrapper">
+    Entstanden am <a href="http://de.opendataday.org/">OpenDataDay 2016</a>. Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz.
+    <br/>
+    Basierend auf <a href="https://pulse.cio.gov">the pulse of the federal .gov webspace</a> von <a href="https://18f.gsa.gov">18F</a>/<a href="http://gsa.gov">General Services Administration</a>. Danke!
+	</div>
+</footer>
+
+
+
+<script src="/static/js/main.js"></script>
+
+</body>
+</html>
