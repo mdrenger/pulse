@@ -7,12 +7,12 @@
 {% block content %}
 <header>
 
-  <h1>About Pulse</h1>
+  <h1>Über diese Seite</h1>
   <p>
-  	Pulse is a project of the General Services Administration that measures how U.S. government domains are following best practices for federal websites.
+  	<em>{{ site.name }}</em> ist ein Projekt, um zu zeigen, wie viele Behördenwebseiten HTTPS unterstützen.
   </p>
   <p>
-  	Pulse is also an <strong>experiment</strong> built on automated tools, and is <strong>probably not perfect</strong>. Pulse measures domains over the public internet using open source tools, and its results can be reviewed by anyone.
+  	Beachte: <em>{{ site.name }}</em> ist auch ein <strong>Experiment</strong>, verwendet automatische Tools und ist <strong>möglicherweise nicht perfekt</strong>. Falls du Fehler findest, <a href="#send-feedback">melde diese bitte</a>.
   </p>
 
 </header>
@@ -24,117 +24,78 @@
 			<h2>Frequently Asked Questions</h2>
 			<ul class="faq-questions">
 				<li>
-					<a href="#what-does-pulse-measure">What does Pulse measure?</a>
+					<a href="#what-domains-are-being-measured">Welche Domains werden überprüft?</a>
 				</li>
 				<li>
-					<a href="#what-domains-are-being-measured">What federal domains are being measured?</a>
+					<a href="#why-https">Was ist HTTPS und warum ist das wichtig?</a>
 				</li>
 				<li>
-					<a href="#why-https">What is HTTPS, and why does Pulse measure it?</a>
+					<a href="#fresh-data">Wann wurden die Daten zuletzt aktualisiert?</a>
 				</li>
 				<li>
-					<a href="#why-dap">What is the Digital Analytics Program, and why does Pulse measure participation?</a>
+					<a href="#send-feedback">Wohin kann ich Feedback senden?</a>
 				</li>
 				<li>
-					<a href="#fresh-data">When was the data last updated on Pulse?</a>
-				</li>
-				<li>
-					<a href="#send-feedback">Where can I send feedback?</a>
-				</li>
-				<li>
-					<a href="#my-info">Your information about my domain is wrong! Can you please fix it?</a>
+					<a href="#my-info">Die Informationen über eine Domain stimmen nicht/sind falsch/...!</a>
 				</li>
 
 			</ul>
 		</header>
 
 		<ul class="faq-answers">
-			<li id="what-does-pulse-measure">
-				<h3>
-					What does Pulse measure about federal domains?
-				</h3>
-				<p>
-					The first best practice Pulse is measuring is the use of <a href="{{ url_for('https_domains') }}">HTTPS</a>.</a>.
-				</p>
-			</li>
-
 			<li id="what-domains-are-being-measured">
 				<h3>
-					What federal domains are being measured?
+					Welche Domains werden überprüft?
 				</h3>
 				<p>
-					Currently, Pulse uses the <a href="https://github.com/GSA/data/tree/gh-pages/dotgov-domains">official <code>.gov</code> domain list</a> as a starting point, and focuses on domains owned by federal agencies. This also includes a few domains ending in <code>.fed.us</code>. Domains ending in other suffixes, such as <code>.mil</code> or <code>.us</code>, are not included at this time.
-				</p>
-
-				<p>
-					Subdomains, such as <code>portal.hud.gov</code> or <code>travel.state.gov</code>, are not measured at this time.
+					Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz, verwendet. Woher diese genau stammen, <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
 				</p>
 			</li>
 
 			<li id="why-https">
 				<h3>
-					What is HTTPS, and why does Pulse measure it?
+					Was ist HTTPS und warum ist das wichtig?
 				</h3>
 				<p>
-					<a href="https://https.cio.gov/faq/">HTTPS</a> provides a secure connection across the internet between websites and their visitors, and is becoming the new baseline for public web services across the internet. As part of this shift, the U.S. federal government is in the process of transitioning <a href="https://https.cio.gov">entirely to HTTPS</a>.
+					<a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
+       		So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Publikationen/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
 				</p>
 				<p>
-					Note that HTTPS generally <strong>does not affect</strong> whether a website is vulnerable to hacking. For more information on what HTTPS does (and doesn't do), <a href="https://https.cio.gov/faq/">visit the HTTPS FAQ</a>.
-				</p>
-			</li>
-
-			<li id="why-dap">
-				<h3>
-					What is the Digital Analytics Program, and why does Pulse measure participation?
-				</h3>
-				<p>
-					The <a href="https://www.digitalgov.gov/services/dap/">Digital Analytics Program</a> is an important federal government project that gives federal agencies and the public a window into how people use government services.
-				</p>
-				<p>
-					Any publicly accessible federal website in the executive branch can participate in the <a href="https://www.digitalgov.gov/services/dap/">Digital Analytics Program</a> (DAP). The easiest way for federal websites to get started is to <a href="mailto:dap@gsa.gov">send the DAP team an email</a>.
+					Auch wenn HTTPS eingesetzt wird, bedeutet das nicht, dass eine Webseite nicht trotzdem gehackt werden kann. Für mehr Informationen, was HTTPS tut (und was es nicht tun kann), <a href="https://https.cio.gov/faq/">besuche die HTTPS FAQ</a> (in Englisch).
 				</p>
 			</li>
 
 			<li id="fresh-data">
-				<h3>When was the data last updated on Pulse?</h3>
+				<h3>Wann wurden die Daten zuletzt aktualisiert?</h3>
 
 				<p>
-					The list of <code>.gov</code> domains used on Pulse was generated on <strong>{{ site.data.domains | date("%B %d, %Y") }}</strong>.
+					Die Liste der Domains wurde zuletzt am <strong>{{ site.data.domains | date("%B %d, %Y") }}</strong> geholt.
 				</p>
 
 				<p>
-					Participation in the Digital Analytics Program is current as of <strong>{{ site.data.scan | date("%B %d, %Y") }}</strong>.
-				</p>
-
-				<p>
-					HTTPS and TLS data was last collected through a scan of the public internet on <strong>{{ site.data.scan | date("%B %d, %Y") }}</strong>.
+					Daten über die HTTPS-Verwendung wurden zuletzt am <strong>{{ site.data.scan | date("%B %d, %Y") }}</strong> gesammelt.
 				</p>
 			</li>
 
 			<li id="send-feedback">
 				<h3>
-					Where can I send feedback?
+					Wohin kann ich Feedback senden?
 				</h3>
 				<p>
-					For questions specific to HTTPS deployment, you may wish to <a href="https://github.com/GSA/https/issues">open an issue on the HTTPS-Only Standard's GitHub repository</a>.
-				</p>
-				<p>
-					For questions specific to the Digital Analytics Program, you can <a href="https://github.com/digital-analytics-program/gov-wide-code">open an issue on the DAP's GitHub repository</a>, or email <a href="mailto:dap@gsa.gov">dap@gsa.gov</a>.
-				</p>
-				<p>
-					For feedback or questions about Pulse, please <a href="https://github.com/18F/pulse/issues">open an issue on Pulse's GitHub repository</a>, or email <a href="mailto:pulse@cio.gov">pulse@cio.gov</a>.
+					Für Feedback oder Fragen über <em>{{ site.name }}</em>, <a href="https://github.com/18F/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a> oder schicke einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
 			<li id="my-info">
 				<h3>
-					Your information about my domain is wrong! Can you please fix it?
+					Die Informationen über eine Domain stimmen nicht/sind falsch/...!
 				</h3>
 				<p>
-					If you just changed something about your domain to address an issue on Pulse, be aware that data does not yet automatically refresh on Pulse, and so there may be a delay before your domain's information updates.
+					Wenn du gerade erst etwas an der Domain verändert hast, um ein Problem zu beseitigen, kann es sein, dass sich die Daten auf <em>{{ site.name }}</em> erst später aktualisieren.
+					Gerade wird ein Datenupdate noch manuell angestoßen, sodass es etwas dauern kann, bis es auf dieser Seite korrekt erscheint.
 				</p>
 				<p>
-					If you see a mistake, please send an email to <a href="mailto:pulse@cio.gov">pulse@cio.gov</a> and it will be investigated.
+					Wenn du einen Fehler gefunden hast, <a href="https://github.com/18F/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a>.
 				</p>
 			</li>
 
