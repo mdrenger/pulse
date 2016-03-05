@@ -22,8 +22,6 @@ class Report:
   # https.uses (number)
   # https.enforces (number)
   # https.hsts (number)
-  # analytics.eligible (number)
-  # analytics.participates (number)
 
   # Initialize a report with a given date.
   def create(report_date):
@@ -37,7 +35,7 @@ class Report:
     else:
       return None
 
-  # Update latest report's 'https' or 'analytics' value
+  # Update latest report's 'https' value
   # with the values
   def update(data):
 
@@ -58,9 +56,6 @@ class Domain:
   #
   # https: {
   #   [many things]
-  # },
-  # analytics: {
-  #   participating? (boolean)
   # }
   #
 
@@ -142,10 +137,6 @@ class Agency:
   #   enforces (number)
   #   hsts (number)
   #   grade (number, >= A-)
-  # }
-  # analytics {
-  #   eligible (number)
-  #   participating (number)
   # }
   #
 

@@ -56,18 +56,6 @@ def register(app):
   def https_guide():
       return render_template("https/guide.html")
 
-  @app.route("/analytics/domains/")
-  def analytics_domains():
-      return render_template("analytics/domains.html")
-
-  @app.route("/analytics/agencies/")
-  def analytics_agencies():
-      return render_template("analytics/agencies.html")
-
-  @app.route("/analytics/guidance/")
-  def analytics_guide():
-      return render_template("analytics/guide.html")
-
   @app.route("/agency/<slug>")
   def agency(slug=None):
       agency = models.Agency.find(slug)

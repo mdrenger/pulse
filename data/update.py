@@ -44,7 +44,6 @@ BUCKET_NAME = "pulse.cio.gov"
 SCAN_TARGET = os.path.join(this_dir, "./output/scan")
 SCAN_COMMAND = os.environ.get("DOMAIN_SCAN_PATH", None)
 SCANNERS = os.environ.get("SCANNERS", "inspect,tls,analytics")
-ANALYTICS_URL = "https://analytics.usa.gov/data/live/second-level-domains.csv"
 
 # TODO:
 # --date: override date
@@ -98,12 +97,11 @@ def upload(date):
 # Drop the output into data/output/scan/results.
 def scan():
   scanners = "--scan=%s" % SCANNERS
-  analytics = "--analytics=%s" % ANALYTICS_URL
   output = "--output=%s" % SCAN_TARGET
 
   shell_out([
     SCAN_COMMAND, DOMAINS,
-    scanners, analytics, output,
+    scanners, output,
     "--debug",
     "--force",
     "--sort",

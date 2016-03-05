@@ -23,10 +23,6 @@ LABELS = {
     'sig': 'Signature Algorithm',
     'ssl3': 'SSLv3',
     'tls12': 'TLSv1.2',
-  },
-
-  'analytics': {
-    'participating': 'Participates in DAP?'
   }
 }
 
@@ -85,6 +81,5 @@ FIELD_MAPPING = {
 
 CSV_FIELDS = {
   'common': ['domain', 'canonical', 'branch', 'agency_name', 'redirect'],
-  'https': ['uses',  'enforces', 'hsts', 'grade'],
-  'analytics': ['participating']
+  'https': ['uses',  'enforces', 'hsts', 'grade']
 }
