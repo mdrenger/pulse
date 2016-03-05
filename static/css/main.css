@@ -413,11 +413,11 @@ a#skipnav {
   padding: 40px 0; }
   #home #results:last-child {
     margin-right: 0; }
-  #home #results .https, #home #results .dap {
+  #home #results .https {
     float: left;
     display: block;
     margin-right: 3.57866%;
-    width: 48.21067%;
+    width: 100%;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -452,12 +452,12 @@ a#skipnav {
     -ms-flex-pack: center;
     margin-bottom: 40px;
     text-align: center; }
-    #home #results .https:last-child, #home #results .dap:last-child {
+    #home #results .https:last-child {
       margin-right: 0; }
     @media (max-width: 970px) {
-      #home #results .https, #home #results .dap {
+      #home #results .https {
         width: 100%; } }
-    #home #results .https .total-value, #home #results .dap .total-value {
+    #home #results .https .total-value {
       font-size: 5em; }
 
 #analytics #content > header, #https #content > header, #about #content > header, #domain #content > header, #agency #content > header {
