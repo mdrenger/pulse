@@ -8,7 +8,7 @@ $(document).ready(function () {
   var percentBar = function(field) {
     return function(data, type, row) {
       if (type == "sort")
-        return null;
+        return row.https[field];
       return Utils.progressBar(Utils.percent(
         row.https[field], row.https.eligible
       ));
