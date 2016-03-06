@@ -7,8 +7,10 @@ $(document).ready(function () {
 
   var percentBar = function(field) {
     return function(data, type, row) {
-      if (type == "sort")
-        return null;
+      if (type == "sort") {
+        console.log(row.https[field]);
+        return row.https[field];
+      }
       return Utils.progressBar(Utils.percent(
         row.https[field], row.https.eligible
       ));
@@ -31,7 +33,7 @@ $(document).ready(function () {
         {data: "https.uses"},
         {data: "https.enforces"},
         {data: "https.hsts"},
-        {data: "https.grade"}
+        //{data: "https.grade"}
       ],
 
       // order by number of domains
@@ -57,10 +59,10 @@ $(document).ready(function () {
           render: percentBar("hsts"),
           targets: 4,
         },
-        {
+        /*{
           render: percentBar("grade"),
           targets: 5,
-        }
+        }*/
       ],
 
       "oLanguage": {
