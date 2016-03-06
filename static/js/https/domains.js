@@ -35,8 +35,8 @@ $(document).ready(function () {
       0: "Nein", // No
       1: "Ja", // HSTS on only that domain
       2: "Ja", // HSTS on subdomains
-      3: "Yes, and preload-ready", // HSTS on subdomains + preload flag
-      4: "Yes, and preloaded" // In the HSTS preload list
+      3: "Ja, preload-ready", // HSTS on subdomains + preload flag
+      4: "Ja, preloaded" // In the HSTS preload list
     },
 
     grade: {
@@ -92,32 +92,32 @@ $(document).ready(function () {
 
     if (https >= 1) {
       if (behavior >= 2)
-        details = "This domain enforces HTTPS. "
+        details = "Diese Domain erzwingt HTTPS. ";
       else
-        details = "This domain supports HTTPS, but does not enforce it. "
+        details = "Diese Domain unterstützt HTTPS, aber erzwingt es nicht. ";
 
       if (hsts == 0) {
         // HSTS is considered a No *because* its max-age is too weak.
         if ((hsts_age > 0) && (hsts_age < 10886400))
-          details += "The " + l("hsts", "HSTS") + " max-age (" + hsts_age + " seconds) is too short, and should be increased to at least 1 year (31536000 seconds).";
+          details += "Das " + l("hsts", "HSTS") + " Maximalalter (" + hsts_age + " Sekunden) ist zu kurz und sollte auf mindestens 1 Jahr (31536000 Sekunden) erhöht werden.";
         else
-          details += l("hsts", "HSTS") + " is not enabled.";
+          details += l("hsts", "HSTS") + " ist nicht aktiviert.";
       }
       else if (hsts == 1)
-        details += l("hsts", "HSTS") + " is enabled, but not for its subdomains and is not ready for " + l("preload", "preloading") + ".";
+        details += l("hsts", "HSTS") + " ist aktiviert, aber nicht für Subdomains und nicht für eine " + l("preload", "Hinterlegung in Browsern (preloading)") + "  bereit.";
       else if (hsts == 2)
-        details += l("hsts", "HSTS") + " is enabled for all subdomains, but is not ready for " + l("preload", "preloading into browsers") + ".";
+        details += l("hsts", "HSTS") + " ist für alle Subdomains aktiviert, aber nicht für eine " + l("preload", "Hinterlegung in Browsern (preloading)") + " bereit.";
       else if (hsts == 3)
-        details += l("hsts", "HSTS") + " is enabled for all subdomains, and can be " + l("preload", "preloaded into browsers") + ".";
+        details += l("hsts", "HSTS") + " ist für alle Subdomains aktiviert und " + l("preload", "in Browsern hinterlegt (preload)") + ".";
 
       // HSTS is strong enough to get a yes, but still less than a year.
       if (hsts > 0 && (hsts_age < 31536000))
-        details += " The HSTS max-age (" + hsts_age + " seconds) should be increased to at least 1 year (31536000 seconds)."
+        details += " Das HSTS Maximalalter (" + hsts_age + " Sekunden) sollte auf mindestens 1 Jahr (31536000 Sekunden) erhöht werden.";
 
     } else if (https == 0)
-      details = "This domain redirects visitors from HTTPS down to HTTP."
+      details = "Diese Domain leitet Besucher von HTTPS auf HTTP um.";
     else if (https == -1)
-      details = "This domain does not support HTTPS."
+      details = "Diese Domain unterstützt kein HTTPS.";
 
     return details;
   };
@@ -143,34 +143,34 @@ $(document).ready(function () {
       return null;
 
     if (row.https.grade < 0)
-      return "No data.";
+      return "Keine Daten.";
 
     var config = [];
 
     if (row.https.uses == 1)
-      config.push("uses a certificate chain that may be invalid for some visitors");
+      config.push("benutzt eine Zertifikatskette, die für manche Besucher nicht valide ist");
 
     if (row.https.sig == "SHA1withRSA")
-      config.push("uses a certificate with a " + l("sha1", "weak SHA-1 signature"));
+      config.push("benutzt ein Zertifikat mit einer " + l("sha1", "schwachen SHA-1-Signatur"));
 
     if (row.https.ssl3 == true)
-      config.push("supports the " + l("ssl3", "insecure SSLv3 protocol"));
+      config.push("unterstützt das " + l("ssl3", "unsichere SSLv3 Protokoll"));
 
     if (row.https.rc4 == true)
-      config.push("supports the " + l("rc4", "deprecated RC4 cipher"));
+      config.push("unterstützt die " + l("rc4", "veraltete RC4-Verschlüsselung"));
 
     if (row.https.tls12 == false)
-      config.push("lacks support for the " + l("tls", "most recent version of TLS"));
+      config.push("fehlt die Unterstützung für die " + l("tls", "aktuellste Version von TLS"));
 
     // Don't bother remarking if FS is Modern or Robust.
     if (row.https.fs <= 1)
-      config.push("should enable " + l("fs", "forward secrecy"));
+      config.push("sollte " + l("fs", "forward secrecy", true) + " aktivieren");
 
     var issues = "";
     if (config.length > 0)
-      issues += "This domain " + config.join(", ") + ". ";
+      issues += "Diese Domain " + config.join(", ") + ". ";
 
-    issues += "See the " + l(labsUrlFor(row.domain), "full SSL Labs report") + " for details.";
+    issues += "Für mehr Details den " + l(labsUrlFor(row["Domain"]), "vollen SSL Labs-Report") + " lesen.";
 
     return issues;
   };
@@ -225,6 +225,7 @@ $(document).ready(function () {
         },
         {
           data: "TLS Issues",
+          title: "TLS-Probleme",
           render: tlsDetails
         }
       ],
