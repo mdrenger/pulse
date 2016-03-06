@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="de">
 <head>
-<title>HTTPS in the federal government - All domains</title>
-<meta property="og:title" content="The pulse of german goverment domains | HTTPS in the federal government - All domains" />
+<title>HTTPS bei Behördenwebseiten - Info</title>
+<meta property="og:title" content="The pulse of german goverment domains | HTTPS bei Behördenwebseiten - Info" />
 
-<meta name="description" content="How federal government domains are doing at deploying HTTPS.">
-<meta property="og:description" content="How federal government domains are doing at deploying HTTPS." />
+<meta name="description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind.">
+<meta property="og:description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind." />
 
 <!-- Basic Page Needs
 ================================================== -->
@@ -210,48 +210,117 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
   </div>
 
   <div class="description">
-    <h1>Accessibility</h1>
-    <h2>Last updated <strong>März 05, 2016</strong></h2>
+    <h1>Sicheres HTTP (HTTPS)</h1>
+    <h2>Letzter Update: <strong>05. März 2016</strong></h2>
     <p>
-       The US Government’s mission is to serve the needs of all its citizens, including the approximately 60 million who live with disabilities. For websites, this means that pages should be built according to certain standards that ensure, for example, that a visually impaired user accessing a government site through a screen reader will be able to navigate and access the same information available to a non-visually-impaired user. 
-
-
+       Diese Daten zeigen, ob Domains deutscher Behördern das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
+       HTTPS ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
+       So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Publikationen/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
     </p>
     <p>
-      Full conformance with the government’s accessibility guidelines requires an expert evaluation. There are a number of automated tools that can help web designers identify errors that might present an issue for users with disabilities. We’ve scanned the .gov domain for accessibility errors, and will be posting weekly updates to show how many of the errors have been fixed over time.
-    </p>
-
-    <p>
-IMPORTANT: These error reports do NOT constitute an evaluation of compliance with accessibility requirements. A website with many errors may pass an accessibility evaluation, while a website with no errors may actually not be accessible. Only a professional evaluator can make this determination. This information is presented as a guide to help web managers understand accessibility issues and help correct errors that could make a site inaccessible.
-    </p>
-    <p>
-       <strong>This page is a proof of concept.  The data represented here is dummy data and is for placeholding value only.</strong> 
+      Auch wenn HTTPS eingesetzt wird, bedeutet das nicht, dass eine Webseite nicht trotzdem gehackt werden kann. Für mehr Informationen, was HTTPS tut (und was es nicht tun kann), <a href="https://https.cio.gov/faq/">besuche die HTTPS FAQ</a> (in Englisch).
     </p>
   </div>
 
 </header>
 
 <section id="main-content" class="white-bkg">
-  <nav class="tab-menu">
-    <span class="tab">By Domain</span>
-    <a href="/accessibility/agencies/" class="tab">By Agency</a>
-    <a href="/accessibility/guidance/" class="tab">Guidance</a>
-  </nav>
-  <div class="wrapper">
-    <table class="domain responsive https">
-        <thead>
-          <tr>
-            <th class="all">Domain</th>
-            <th class="all">Errors</th>
-            <th class="all">Agency</th>
-            <th class="none" scope="col">Error Details</th>
-          </tr>
-        </thead>
-    </table>
-  </div>
-</section>
 
-<script src="/static/js/accessibility/domains.js?201603066203139"></script>
+  <nav class="tab-menu">
+    <a href="/pulse/https/domains/" class="tab">Nach Domain</a>
+    <a href="/pulse/https/agencies/" class="tab">Nach Behörde</a>
+    <span class="tab">Info</span>
+  </nav>
+
+  <div class="wrapper">
+
+    <div class="guide">
+
+      <h2>Below you will find some helpful tips to help guide you towards getting a better score on Pulse for your domain or agency. For any further questions, please visit our <a href="/about/">frequently asked questions</a>.</h2>
+
+      <article>
+
+        <h3>What domains are measured?</h3>
+
+        <p>
+          Pulse measures the presence, enforcement, and quality of HTTPS for <strong>publicly accessible <code>.gov</code> domains</strong> in the federal government's <strong>executive, legislative, and judicial branches</strong>. Domains which do nothing but redirect to other websites <strong>are measured</strong>.
+        </p>
+
+        <p>
+          This currently amounts to around 1,200 domains.
+        </p>
+
+      </article>
+
+      <article>
+
+        <h3>Implementing HTTPS</h3>
+
+        <p>
+          The process of enabling and enforcing strong HTTPS for a web service can vary widely based on the technology, size, and age of the service.
+        </p>
+
+        <p>
+          Agencies working on deploying HTTPS are encouraged to consult <a href="https://https.cio.gov">https.cio.gov</a> for detailed best practices and technical guidance. <a href="https://https.cio.gov">https.cio.gov</a> is <a href="https://github.com/gsa/https">open source</a>, and agencies are also very much encouraged to contribute their own expertise and case studies.
+        </p>
+
+      </article>
+
+      <article>
+
+        <h3>Measuring HTTPS</h3>
+
+        <p>
+          Pulse analyzes the behavior of four "endpoints" of every domain: <code>http://</code>, <code>http://www</code>, <code>https://</code>, and <code>https://www</code>. Data from these endpoints is used to characterize the overall behavior of a domain.
+        </p>
+
+        <p>
+          These measurements are performed using <a href="https://github.com/benbalter/site-inspector">open source</a> <a href="https://github.com/18F/domain-scan">tools</a> and the <a href="https://www.ssllabs.com">SSL Labs</a> <a href="https://github.com/ssllabs/ssllabs-scan/blob/stable/ssllabs-api-docs.md">API</a>.
+        </p>
+
+      </article>
+
+      <article>
+
+        <h3>Fields</h3>
+
+        <ul>
+          <li><strong>Uses HTTPS</strong></li>
+          <li><strong>Values:</strong> No, Yes</li>
+          <li>Whether a site can be used over HTTPS, on either its bare domain or its <code>www</code> subdomain. Sites that appear to redirect "down" from HTTPS to HTTP are considered a "No".</li>
+        </ul>
+
+        <ul>
+          <li><strong>Enforces HTTPS</strong></li>
+          <li><strong>Values:</strong> No, Yes</li>
+          <li>Whether a domain appears to "default" to using HTTPS. This can be done either by redirecting its HTTP endpoints to HTTPS, or by only being available over HTTPS.</li>
+        </ul>
+
+        <ul>
+          <li><strong>Strict Transport Security (HSTS)</strong></li>
+          <li><strong>Values:</strong> No, Yes, "Yes, and preload-ready", "Yes, and preloaded"</li>
+          <li>Whether a domain has implemented <a href="https://https.cio.gov/hsts/">HTTP Strict Transport Security</a>, which ensures that <a href="http://caniuse.com/#search=hsts">supporting browsers</a> will only ever communicate with a domain over HTTPS (even if the user clicks or types in a plain HTTP link).</li>
+          <li>"Yes" means that a valid <code>Strict-Transport-Security</code> header with a non-zero <code>max-age</code> is present on the domain's default endpoint.</li>
+          <li>"Yes, and preload-ready" means that the domain has implemented a strong HSTS header on its <strong>bare domain</strong> whose policy covers all subdomains, and has indicated consent to <a href="https://hstspreload.appspot.com">preloading by all major browsers</a> as HTTPS-only.</li>
+          <li>"Yes, and preloaded" means that the domain is visibly preload-ready (meets the above criteria), <strong>and</strong> that the domain is actually in the public versioned <a href="https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json">Chrome preload list</a>. Reaching this step effectively means that a domain's namespace is permanently and fully committed to HTTPS.
+          </li>
+        </ul>
+
+        <ul>
+          <li><strong>SSL Labs Grade</strong></li>
+          <li><strong>Values:</strong> T, F, C, B, A-, A, A+</li>
+          <li>A grade measuring the <em>quality</em> of HTTPS configuration, as calculated by <a href="https://www.ssllabs.com">SSL Labs</a>. SSL Labs operates a free and universally referenced benchmarking service.</li>
+          <li>Grades are calculated using a <a href="https://www.ssllabs.com/downloads/SSL_Server_Rating_Guide.pdf">detailed methodology</a> that looks at the strength of cryptographic keys, choices of ciphers, supported protocols, and other relevant standards (such as HSTS).</li>
+          <li>Grades are hyperlinked to detailed reports for each domain on SSL Labs. As an example, view the <a href="https://www.ssllabs.com/ssltest/analyze.html?d=pulse.cio.gov">SSL Labs report for Pulse itself</a>.</li>
+        </ul>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
 
 
 </section>
