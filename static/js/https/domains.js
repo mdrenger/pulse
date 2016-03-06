@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-  $.get("/data/domains/https.json", function(data) {
+  var report_url = $('script[data-domain-report-url]').attr('data-domain-report-url');
+  $.get(report_url, function(data) {
     renderTable(data.data);
   });
 
@@ -185,6 +186,7 @@ $(document).ready(function () {
     };
 
   var renderTable = function(data) {
+    var csv_url = $('script[data-domain-report-csv-url]').attr('data-domain-report-csv-url');
     var table = $("table").DataTable({
 
       responsive: true,
@@ -248,7 +250,7 @@ $(document).ready(function () {
         }
       },
 
-      csv: "/data/domains/https.csv",
+      csv: csv_url,
 
       dom: 'LCftrip'
 

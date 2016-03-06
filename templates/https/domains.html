@@ -33,6 +33,8 @@
   </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/https/domains.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
+<script src="{{ url_for('static', filename='js/https/domains.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"
+        data-domain-report-url="{{ url_for('domain_report', report_name='https', ext='json') }}"
+        data-domain-report-csv-url="{{ url_for('domain_report', report_name='https', ext='csv') }}"></script>
 
 {% endblock %}

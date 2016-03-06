@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-  $.get("/data/agencies/https.json", function(data) {
+  var report_url = $('script[data-agency-report-url]').attr('data-agency-report-url');
+  $.get(report_url, function(data) {
     renderTable(data.data);
   });
 

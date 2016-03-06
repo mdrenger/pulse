@@ -30,5 +30,6 @@
   </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/https/agencies.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
+<script src="{{ url_for('static', filename='js/https/agencies.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"
+        data-agency-report-url="{{ url_for('agency_report', report_name='https') }}"></script>
 {% endblock %}
