@@ -63,6 +63,10 @@ $(document).ready(function () {
       ],
 
       "oLanguage": {
+        "sSearch": "Suche:",
+        "sLengthMenu": "Zeige _MENU_ Einträge",
+        "sInfo": "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
+        "sInfoFiltered": "(von insgesamt _MAX_ Einträgen)",
         "oPaginate": {
           "sPrevious": "<<",
           "sNext": ">>"
