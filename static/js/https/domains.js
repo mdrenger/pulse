@@ -223,11 +223,12 @@ $(document).ready(function () {
           data: "Details",
           render: httpDetails
         },
+        /*
         {
           data: "TLS Issues",
           title: "TLS-Probleme",
           render: tlsDetails
-        }
+        }*/
       ],
 
       columnDefs: [
