@@ -113,7 +113,7 @@ def load_domain_data():
       domain_type = "<domaintypedummy>"
       agency_name = row[1].strip()
       agency_slug = slugify.slugify(agency_name)
-      branch = "<branchdummy>"
+      branch = ""
 
       # Exclude cities, counties, tribes, etc.
       #if domain_type != "Federal Agency":
