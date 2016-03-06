@@ -52,7 +52,7 @@ def register(app):
   def https_agencies():
       return render_template("https/agencies.html")
 
-  @app.route("/https/guidance/")
+  @app.route("/https/info/")
   def https_guide():
       return render_template("https/guide.html")
 
