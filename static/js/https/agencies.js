@@ -31,7 +31,7 @@ $(document).ready(function () {
         {data: "https.uses"},
         {data: "https.enforces"},
         {data: "https.hsts"},
-        {data: "https.grade"}
+        //{data: "https.grade"}
       ],
 
       // order by number of domains
@@ -57,10 +57,10 @@ $(document).ready(function () {
           render: percentBar("hsts"),
           targets: 4,
         },
-        {
+        /*{
           render: percentBar("grade"),
           targets: 5,
-        }
+        }*/
       ],
 
       "oLanguage": {

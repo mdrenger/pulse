@@ -215,10 +215,10 @@ $(document).ready(function () {
           data: "https.hsts",
           render: display(names.hsts)
         },
-        {
+        /*{
           data: "https.grade",
           render: linkGrade
-        },
+        },*/
         {
           data: "Details",
           render: httpDetails
