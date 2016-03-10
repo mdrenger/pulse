@@ -4,7 +4,7 @@ from flask_frozen import Freezer
 from pulse import app
 from app import models
 
-app.config['FREEZER_BASE_URL'] = 'https://robbi5.github.io/pulse/'
+app.config['FREEZER_BASE_URL'] = 'https://https.jetzt/'
 
 freezer = Freezer(app)
 
