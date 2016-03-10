@@ -1,4 +1,4 @@
-## Kann .DE HTTPS?
+## https.jetzt!
 
 Dieses Projekt bietet eine Übersicht, ob Domains deutscher Behördern das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
 
