@@ -33,7 +33,7 @@ var Utils = {
         return data;
       else
         return "" +
-          "<a href=\"/" + page + "/domains/#" +
+          "<a href=\"" + Utils.rootUrl() + page + "/domains/#" +
             QueryString.stringify({q: row["name"]}) + "\">" +
             data +
           "</a>";
@@ -48,5 +48,9 @@ var Utils = {
       $("input[type=search]").val(query);
       api.search(query).draw();
     }
+  },
+
+  rootUrl: function() {
+    return $("meta[name=root_url]").attr("content") || "/";
   }
 };
