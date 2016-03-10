@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="de">
 <head>
-<title>{% block title %}{% endblock %}</title>
-<meta property="og:title" content="{{ site.title }} | {{ self.title() }}" />
+<title>{% block title %}{% endblock %} - {{ site.title }}</title>
+<meta property="og:title" content="{{ self.title() }} - {{ site.title }}" />
 
 <meta name="description" content="{% block description %}{% endblock %}">
 <meta property="og:description" content="{{ self.description() }}" />
