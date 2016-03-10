@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 
 {% block page_id %}about{% endblock %}
-{% block title %}About{% endblock %}
-{% block description %}Frequently asked questions and information on what it Pulse measures and where to send feedback.{% endblock %}
+{% block title %}Über diese Seite{% endblock %}
+{% block description %}Frequently Asked Questions und weitere Informationen über {{ site.name }}{% endblock %}
 
 {% block content %}
 <header>
@@ -12,7 +12,7 @@
   	<em>{{ site.name }}</em> ist ein Projekt, um zu zeigen, wie viele Behördenwebseiten HTTPS unterstützen.
   </p>
   <p>
-  	Beachte: <em>{{ site.name }}</em> ist auch ein <strong>Experiment</strong>, verwendet automatische Tools und ist <strong>möglicherweise nicht perfekt</strong>. Falls du Fehler findest, <a href="#send-feedback">melde diese bitte</a>.
+  	Beachte: <em>{{ site.name }}</em> ist auch ein <strong>Experiment</strong>, verwendet automatische Tools und ist <strong>sicherlich nicht perfekt</strong>. Falls du Fehler findest, <a href="#send-feedback">melde diese bitte</a>.
   </p>
 
 </header>
@@ -36,9 +36,11 @@
 					<a href="#send-feedback">Wohin kann ich Feedback senden?</a>
 				</li>
 				<li>
+					<a href="#idea-more-metrics">Ich hätte da eine Idee, was man noch auswerten sollte...</a>
+				</li>
+				<li>
 					<a href="#my-info">Die Informationen über eine Domain stimmen nicht/sind falsch/...!</a>
 				</li>
-
 			</ul>
 		</header>
 
@@ -83,6 +85,15 @@
 				</h3>
 				<p>
 					Für Feedback oder Fragen über <em>{{ site.name }}</em>, <a href="https://github.com/robbi5/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a> oder schicke einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
+				</p>
+			</li>
+
+			<li id="idea-more-metrics">
+				<h3>
+					Ich hätte da eine Idee, was man noch auswerten sollte...
+				</h3>
+				<p>
+					Wunderbar! Falls du Programmierkenntnisse besitzt, freuen wir uns über einen Pull-Request auf <a href="https://github.com/robbi5/pulse/issues">unserem GitHub Repository</a>. Falls nicht - nicht schlimm, wir freuen uns auch über Ideen in Form eines <a href="https://github.com/robbi5/pulse/issues">Issues auf unserem GitHub Repository</a> oder einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
