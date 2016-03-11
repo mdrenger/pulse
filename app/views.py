@@ -72,17 +72,17 @@ def register(app):
 
       return render_template("domain.html", domain=domain)
 
-  @app.route("/accessibility/domains/")
-  def accessibility_domains():
-    return render_template("accessibility/domains.html")
+  #@app.route("/accessibility/domains/")
+  #def accessibility_domains():
+  #  return render_template("accessibility/domains.html")
 
-  @app.route("/accessibility/agencies/")
-  def accessibility_agencies():
-    return render_template("accessibility/agencies.html")
+  #@app.route("/accessibility/agencies/")
+  #def accessibility_agencies():
+  #  return render_template("accessibility/agencies.html")
 
-  @app.route("/accessibility/guidance/")
-  def accessibility_guide():
-    return render_template("accessibility/guide.html")
+  #@app.route("/accessibility/guidance/")
+  #def accessibility_guide():
+  #  return render_template("accessibility/guide.html")
 
 
   @app.template_filter('field_map')
