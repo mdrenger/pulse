@@ -9,9 +9,10 @@ var Utils = {
   progressBar: function(data) {
 
     return '' +
+      '<p class="progress">' + data + '%</p>' +
       '<div class="progress-bar-indication">' +
         '<span class="meter width' + data + '" style="width: ' + data + '%">' +
-          '<p>' + data + '%</p>' +
+        '&nbsp;' +
         '</span>' +
       '</div>';
   },
