@@ -63,6 +63,8 @@ $(document).ready(function () {
         }*/
       ],
 
+      pageLength: 25,
+
       "oLanguage": {
         "sSearch": "Suche:",
         "sLengthMenu": "Zeige _MENU_ Einträge",
