@@ -784,20 +784,24 @@ a#skipnav {
       cursor: pointer; }
       .dataTables_wrapper table.dataTable.https.domain tbody tr:hover + .child {
         background-color: #EEE; }
-    .dataTables_wrapper table.dataTable.agency td {
-      padding: 15px 0 15px 40px !important; }
-      @media screen and (max-width: 1024px) {
-        .dataTables_wrapper table.dataTable.agency td {
-          padding-left: 32px !important; }
-          .dataTables_wrapper table.dataTable.agency td:first-child:before {
-            top: 30px !important; } }
-      @media screen and (max-width: 767px) {
-        .dataTables_wrapper table.dataTable.agency td:first-child:before {
-          top: 15px !important; } }
+    .dataTables_wrapper table.dataTable.agency tr.parent td {
+      border-bottom: none !important; }
+    @media screen and (max-width: 1024px) {
+      .dataTables_wrapper table.dataTable.agency td {
+        padding-left: 32px !important; } }
+    .dataTables_wrapper table.dataTable.agency p.progress {
+      font-weight: 900;
+      font-size: 0.875em;
+      display: inline-block;
+      min-width: 35px;
+      vertical-align: middle; }
     .dataTables_wrapper table.dataTable.agency .progress-bar-indication {
+      display: inline-block;
       background-color: #CCC;
       border-radius: 20px;
-      width: 70%; }
+      width: 65%;
+      overflow: hidden;
+      vertical-align: middle; }
       .dataTables_wrapper table.dataTable.agency .progress-bar-indication > .meter {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -806,7 +810,7 @@ a#skipnav {
         background-repeat: repeat-x;
         background-size: 40px 40px;
         border-radius: 20px 0 0 20px;
-        margin: 15px 0;
+        margin: 0;
         display: block;
         height: 100%;
         width: 60%; }
@@ -818,11 +822,6 @@ a#skipnav {
           background-color: transparent; }
         .dataTables_wrapper table.dataTable.agency .progress-bar-indication > .meter.width3 {
           background-color: transparent; }
-      .dataTables_wrapper table.dataTable.agency .progress-bar-indication p {
-        font-weight: 900;
-        font-size: 0.875em;
-        position: relative;
-        top: -18px; }
   .dataTables_wrapper .dataTables_info {
     padding-top: 0 !important; }
   .dataTables_wrapper .dataTables_paginate a.paginate_button {

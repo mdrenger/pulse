@@ -43,7 +43,12 @@ $(document).ready(function () {
           cellType: "td",
           createdCell: function (td) {
             td.scope = "row";
-          }
+          },
+          width: "40%"
+        },
+        {
+          targets: 1,
+          width: "55px"
         },
         {
           render: percentBar("uses"),
@@ -62,6 +67,8 @@ $(document).ready(function () {
           targets: 5,
         }*/
       ],
+
+      pageLength: 25,
 
       "oLanguage": {
         "sSearch": "Suche:",
