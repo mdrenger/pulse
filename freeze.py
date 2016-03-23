@@ -26,6 +26,8 @@ def report_files():
     yield 'agency_report', { 'report_name': 'https' }
     yield 'domain_report', { 'report_name': 'https', 'ext': 'json' }
     yield 'domain_report', { 'report_name': 'https', 'ext': 'csv' }
+    yield 'report_feed', { 'report_name': 'https', 'ext': 'xml' }
+
 
 if __name__ == '__main__':
     freezer.freeze()

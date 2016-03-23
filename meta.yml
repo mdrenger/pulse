@@ -9,11 +9,5 @@ description: "Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte 
 
 # When the data we used was generated. Manually updated for now.
 data:
-  # The scan date.
-  scan: 2016-03-05
-
   # URL where we download the .gov domain list from.
   domains_url: https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv
-
-  # The export date for the .gov domain list. Increasingly non-relevant.
-  domains: 2016-03-05

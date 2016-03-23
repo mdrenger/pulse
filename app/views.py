@@ -20,29 +20,29 @@ def register(app):
   # High-level %'s, used to power the donuts.
   @app.route("/data/reports/<report_name>.json")
   def report(report_name):
-    response = Response(ujson.dumps(models.Report.latest().get(report_name, {})))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+      response = Response(ujson.dumps(models.Report.latest().get(report_name, {})))
+      response.headers['Content-Type'] = 'application/json'
+      return response
 
   # Detailed data per-domain, used to power the data tables.
   @app.route("/data/domains/<report_name>.<ext>")
   def domain_report(report_name, ext):
-    domains = models.Domain.eligible(report_name)
+      domains = models.Domain.eligible(report_name)
 
-    if ext == "json":
-      response = Response(ujson.dumps({'data': domains}))
-      response.headers['Content-Type'] = 'application/json'
-    elif ext == "csv":
-      response = Response(models.Domain.to_csv(domains, report_name))
-      response.headers['Content-Type'] = 'text/csv'
-    return response
+      if ext == "json":
+        response = Response(ujson.dumps({'data': domains}))
+        response.headers['Content-Type'] = 'application/json'
+      elif ext == "csv":
+        response = Response(models.Domain.to_csv(domains, report_name))
+        response.headers['Content-Type'] = 'text/csv'
+      return response
 
   @app.route("/data/agencies/<report_name>.json")
   def agency_report(report_name):
-    domains = models.Agency.eligible(report_name)
-    response = Response(ujson.dumps({'data': domains}))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+      domains = models.Agency.eligible(report_name)
+      response = Response(ujson.dumps({'data': domains}))
+      response.headers['Content-Type'] = 'application/json'
+      return response
 
   @app.route("/https/domains/")
   def https_domains():
@@ -72,6 +72,13 @@ def register(app):
 
       return render_template("domain.html", domain=domain)
 
+  # Sanity-check RSS feed, shows the latest report.
+  @app.route("/data/reports/feed/")
+  def report_feed():
+      response = Response(render_template("feed.xml"))
+      response.headers['Content-Type'] = 'application/rss+xml'
+      return response
+
   #@app.route("/accessibility/domains/")
   #def accessibility_domains():
   #  return render_template("accessibility/domains.html")
@@ -83,16 +90,3 @@ def register(app):
   #@app.route("/accessibility/guidance/")
   #def accessibility_guide():
   #  return render_template("accessibility/guide.html")
-
-
-  @app.template_filter('field_map')
-  def field_map(value, category=None, field=None):
-      return FIELD_MAPPING[category][field][value]
-
-  @app.template_filter('percent')
-  def percent(num, denom):
-    return round((num / denom) * 100)
-
-  @app.template_filter('percent_not')
-  def percent_not(num, denom):
-    return (100 - round((num / denom) * 100))

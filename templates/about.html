@@ -116,11 +116,7 @@
 				<h3>Wann wurden die Daten zuletzt aktualisiert?</h3>
 
 				<p>
-					Die Liste der Domains wurde zuletzt am <strong>{{ site.data.domains | date("%d. %B %Y") }}</strong> geholt.
-				</p>
-
-				<p>
-					Daten über die HTTPS-Verwendung wurden zuletzt am <strong>{{ site.data.scan | date("%d. %B %Y") }}</strong> gesammelt.
+					Die Liste der Domains und die Daten über die HTTPS-Verwendung wurden zuletzt am <strong>{{ scan_date | date("%d. %B %Y") }}</strong> aktualisiert.
 				</p>
 			</li>
 
