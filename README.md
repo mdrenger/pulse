@@ -1,6 +1,6 @@
 ## https.jetzt!
 
-Dieses Projekt bietet eine Übersicht, ob Domains deutscher Behördern das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
+Dieses Projekt bietet eine Übersicht, ob Domains deutscher Behörden das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
 
 Entstanden am [OpenDataDay 2016](http://de.opendataday.org).
 Domains aus dem [german-gov-domains](https://github.com/robbi5/german-gov-domains)-Datensatz.
