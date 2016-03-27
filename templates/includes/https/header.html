@@ -1,9 +1,11 @@
 <header class="chart">
 
   <div class="donut">
-    <div class="https_chart"></div>
-    {% include 'includes/https/donut.html' %}
+    <div class="https_chart"
+        title="BIETEN HTTPS"
+        data-report="{{ url_for('report', report_name='https') }}"></div>
   </div>
+  <script src="{{ url_for('static', filename='js/https/donut.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
 
   <div class="description">
     <h1>Sicheres HTTP (HTTPS)</h1>
