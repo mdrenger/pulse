@@ -31,6 +31,17 @@ DOMAIN_TYPES = [
   'city'
 ]
 
+DOMAIN_TYPE_LABELS = {
+  'federal': {
+    'singular': 'Behörde',
+    'plural': 'Behörden'
+  },
+  'city': {
+    'singular': 'Kommune',
+    'plural': 'Kommunen'
+  }
+}
+
 
 FIELD_MAPPING = {
 
