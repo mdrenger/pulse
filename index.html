@@ -46,7 +46,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 <link rel="stylesheet" href="/static/css/google-fonts.css">
 <link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/dataTables.responsive.css">
-<link rel="stylesheet" href="/static/css/main.css?201603076174206">
+<link rel="stylesheet" href="/static/css/main.css?201603088194900">
 
 <!-- Scripts
 ================================================== -->
@@ -58,7 +58,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 <script src="/static/js/dataTables.downloads.js"></script>
 <script src="/static/js/vendor/d3.min.js"></script>
 <script src="/static/js/vendor/querystring.js"></script>
-<script src="/static/js/utils.js?201603076174206"></script>
+<script src="/static/js/utils.js?201603088194900"></script>
 </head>
 
 <body id="home">
@@ -85,13 +85,16 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
             </h1>
             <ul id="right-nav">
                 <li>
-                    <a href="/https/domains/">Ergebnisse</a>
+                    <a href="/https/federal/domains/">Behörden</a>
+                </li>
+                <li>
+                    <a href="/https/city/domains/">Kommunen</a>
                 </li>
                 <li>
                     <a href="/about/">Über diese Seite</a>
                 </li>
             </ul>
-            <a href="#" id="menu-btn">MENU</a>
+            <a href="#" id="menu-btn">MENÜ</a>
         </div>
 
     </nav>
@@ -100,7 +103,10 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
       <ul>
         <li><a href="/">https.jetzt!</a></li>
         <li>
-            <a href="/https/domains/">Ergebnisse</a>
+            <a href="/https/federal/domains/">Behörden</a>
+        </li>
+        <li>
+            <a href="/https/city/domains/">Kommunen</a>
         </li>
         <li>
             <a href="/about/">Über diese Seite</a>
@@ -117,108 +123,36 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
   
 <div class="wrapper">
   <div class="hero">
-  	<h2>https.jetzt!</h2>
-  	<h3>Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte Verbindung möglich?</h3>
+    <h2>https.jetzt!</h2>
+    <h3>Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte Verbindung möglich?</h3>
   </div>
 
   <div id="results">
     <div class="https">
-    	<div class="https_chart"
+      <h4>Behörden</h4>
+      <div class="https_chart"
+        title="BIETEN HTTPS"
         data-width="287"
+        data-report="/data/reports/https-federal.json"
+        data-link="/https/federal/domains/"
       ></div>
-    	<script type="text/javascript">
-(function() {
-    var chart = d3.select(".https_chart");
-    var elem = chart[0][0];
+      <a href="/https/federal/domains/" class="button">Ergebnisse anzeigen</a>
+    </div>
 
-    var width = chart.attr("data-width");
-    if (width == null)
-        width = getComputedStyle(elem.parentElement).width;
-    width = parseInt(width);
-
-    var height = width * 1.2;
-
-    var radius = Math.min(width, height) / 2;
-
-    var color = d3.scale.ordinal()
-        .range(["#7ED321", "#FFFFFF"]);
-
-    var arc = d3.svg.arc()
-        .outerRadius(radius)
-        .innerRadius(radius - 40);
-
-    var pie = d3.layout.pie()
-        .value(function (d) {
-        return d.value;
-    })
-        .sort(null);
-
-    chart = chart
-        .append('svg')
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")")
-        .on("click", function(d,i) {
-            location.href = "/https/domains/";
-        });
-
-    d3.json("/data/reports/https.json", function (error, data) {
-
-        // calculate % client-side
-        var uses = Math.round((data.uses / data.eligible) * 100);
-
-        var pie_data = [
-            {status: 'active', value: uses},
-            {status: 'inactive', value: (100-uses)},
-        ]
-
-        var g = chart.selectAll(".arc")
-            .data(pie(pie_data))
-            .enter().append("g")
-            .attr("class", "arc");
-
-        g.append("path")
-            .style("fill", function(d) {
-            return color(d.data.status);
-        })
-            .transition().delay(function(d, i) {
-            return i *400;
-        }).duration(400)
-            .attrTween('d', function(d) {
-            var i = d3.interpolate(d.startAngle+ 0.1, d.endAngle);
-            return function(t) {
-                d.endAngle = i(t);
-                return arc(d);
-            }
-        });
-
-        g.append("text")
-            .attr("text-anchor", "middle")
-            .attr("class", "total-value")
-            .attr("dy", "0.2em")
-            .attr("fill", "white")
-            .text(function(d){
-                return "" + pie_data[0].value + "%";
-        });
-
-        g.append("text")
-            .attr("text-anchor", "middle")
-            .attr("class", "total-desc")
-            .attr("dy", "2.5em")
-            .attr("fill", "white")
-            .text(function(d) {
-                return "BIETEN HTTPS";
-        });
-
-
-    });
-})();
-</script>
-      <a href="/https/domains/" class="button">Ergebnisse anzeigen</a>
+    <div class="https">
+      <h4>Kommunen</h4>
+      <div class="https_chart"
+        title="BIETEN HTTPS"
+        data-width="287"
+        data-report="/data/reports/https-city.json"
+        data-link="/https/city/domains/"
+      ></div>
+      <a href="/https/city/domains/" class="button">Ergebnisse anzeigen</a>
     </div>
   </div>
 </div>
+
+<script src="/static/js/https/donut.js?201603088194900"></script>
 
 </section>
 

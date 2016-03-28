@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="de">
 <head>
-<title>HTTPS bei Behördenwebseiten - Info - https.jetzt!</title>
-<meta property="og:title" content="HTTPS bei Behördenwebseiten - Info - https.jetzt!" />
+<title>HTTPS bei Kommunenwebseiten - Alle Domains - https.jetzt!</title>
+<meta property="og:title" content="HTTPS bei Kommunenwebseiten - Alle Domains - https.jetzt!" />
 
-<meta name="description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind.">
-<meta property="og:description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind." />
+<meta name="description" content="Zeigt, wie viele Kommunenwebseiten über HTTPS erreichbar sind.">
+<meta property="og:description" content="Zeigt, wie viele Kommunenwebseiten über HTTPS erreichbar sind." />
 
 <!-- Basic Page Needs
 ================================================== -->
@@ -127,7 +127,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
   <div class="donut">
     <div class="https_chart"
         title="BIETEN HTTPS"
-        data-report="/data/reports/https-federal.json"></div>
+        data-report="/data/reports/https-city.json"></div>
   </div>
   <script src="/static/js/https/donut.js?201603088194900"></script>
 
@@ -135,7 +135,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
     <h1>Sicheres HTTP (HTTPS)</h1>
     <h2>Letzter Update: <strong>21. März 2016</strong></h2>
     <p>
-       Diese Daten zeigen, ob Domains deutscher Behörden das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
+       Diese Daten zeigen, ob Domains deutscher Kommunen das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
        <a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
        So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Themen/StandardsKriterien/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
     </p>
@@ -147,76 +147,33 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 </header>
 
 <section id="main-content" class="white-bkg">
-
   <nav class="tab-menu">
-    <a href="/https/federal/domains/" class="tab">Nach Domain</a>
-    <a href="/https/federal/agencies/" class="tab">Nach Behörde</a>
-    <span class="tab">Info</span>
+    <span class="tab">Nach Domain</span>
+    <a href="/https/city/agencies/" class="tab">Nach Kommune</a>
+    <a href="/https/city/info/" class="tab">Info</a>
   </nav>
-
   <div class="wrapper">
-
-    <div class="guide">
-
-      <h2>Was bedeuten die Daten an den Domains? Warum braucht man HTTPS? Diese und weitere Fragen werden auch in der <a href="/about/">FAQ</a> beantwortet.</h2>
-
-      <article>
-
-        <h3>Welche Domains werden überprüft?</h3>
-
-        <p>
-          Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz, verwendet. Woher diese genau stammen, steht auf der <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
-        </p>
-
-        <p>
-          Es werden die vier "Endpunkte" jeder Domain überprüft: <code>http://</code>, <code>http://www.</code>, <code>https://</code> und <code>https://www.</code>
-        </p>
-
-        <p>
-          Es werden auch Domains überprüft, die nur auf eine andere Domain weiterleiten.
-        </p>
-
-        <p>
-          Diese Überprüfungen erfolgen mit Hilfe von <a href="https://github.com/benbalter/site-inspector">Open Source</a> <a href="https://github.com/18F/domain-scan">Tools</a>.
-        </p>
-
-      </article>
-
-      <article>
-
-        <h3>Felder</h3>
-
-        <ul>
-          <li><strong>Bietet HTTPS</strong></li>
-          <li><strong>Möglichkeiten:</strong> Nein, Ja</li>
-          <li>
-            Ob eine Webseite mit HTTPS benutzt werden kann, entweder direkt auf der Domain oder der <code>www</code>-Subdomain.<br/>
-            Seiten, die von HTTPS auf HTTP umleiten zählen als unsicher und bekommen ein Nein.</li>
-        </ul>
-
-        <ul>
-          <li><strong>Erzwingt HTTPS</strong></li>
-          <li><strong>Möglichkeiten:</strong> Nein, Ja</li>
-          <li>Ob eine Webseite standardmäßig HTTPS bietet. Dies kann passieren, indem HTTP auf HTTPS umleitet oder sogar nur über HTTPS verfügbar gemacht wird.</li>
-        </ul>
-
-        <ul>
-          <li><strong>Strict Transport Security (HSTS)</strong></li>
-          <li><strong>Möglichkeiten:</strong> Nein, Ja, "Ja, preload-ready", "Ja, preloaded"</li>
-          <li>Ob eine Domain <a href="https://https.cio.gov/hsts/">HTTP Strict Transport Security</a> implementiert. Dies bedeutet, dass <a href="http://caniuse.com/#search=hsts">unterstütze Browser</a> nur noch über HTTPS mit einer Domain kommunizieren, selbst wenn man auf einen HTTP-Link klickt.</li>
-          <li>"Ja" bedeutet, dass ein <code>Strict-Transport-Security</code>-Header ausgeliefert wird.</li>
-          <li>"Ja, preload-ready" bedeutet, dass auf dieser Domain ein HSTS-Header ausgeliefert wird, der für alle Subdomains gilt und für <a href="https://hstspreload.appspot.com">preloading</a> markiert ist.</li>
-          <li>"Ja, preloaded" bedeutet, dass diese Domain "preload-ready" ist (siehe oben) <strong>und</strong> die Domain in der öffentlich verfügbaren <a href="https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json">Chrome preload Liste</a> eingetragen ist.
-          </li>
-        </ul>
-
-      </article>
-
-    </div>
-
+    <table class="domain responsive https">
+        <thead>
+          <tr>
+            <th class="all">Domain</th>
+            <th class="never">Canonical</th>
+            <th class="none">Kommune</th>
+            <th class="min-tablet">Bietet HTTPS</th>
+            <th class="min-tablet">Erzwingt HTTPS</th>
+            <th class="min-tablet-l">Strict Transport Security (HSTS)</th>
+            <!--<th class="none">SSL Labs Grade</th>-->
+            <th class="none" scope="col">Details</th>
+            <!--<th class="none">TLS Issues</th>-->
+          </tr>
+        </thead>
+    </table>
   </div>
-
 </section>
+
+<script src="/static/js/https/domains.js?201603088194900"
+        data-domain-report-url="/data/domains/https-city.json"
+        data-domain-report-csv-url="/data/domains/https-city.csv"></script>
 
 
 </section>
