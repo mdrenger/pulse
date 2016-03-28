@@ -11,3 +11,4 @@ description: "Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte 
 data:
   # URL where we download the .gov domain list from.
   domains_url: https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv
+  analytics_url: ''
