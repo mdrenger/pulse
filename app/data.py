@@ -26,6 +26,11 @@ LABELS = {
   }
 }
 
+DOMAIN_TYPES = [
+  'federal',
+  'city'
+]
+
 
 FIELD_MAPPING = {
 

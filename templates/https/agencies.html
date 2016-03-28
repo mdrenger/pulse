@@ -10,9 +10,9 @@
 
 <section id="main-content" class="white-bkg">
   <nav class="tab-menu">
-    <a href="{{ url_for('https_domains') }}" class="tab">Nach Domain</a>
+    <a href="{{ url_for('https_domains', domain_type=domain_type) }}" class="tab">Nach Domain</a>
     <span class="tab">Nach Behörde</span>
-    <a href="{{ url_for('https_guide') }}" class="tab">Info</a>
+    <a href="{{ url_for('https_guide', domain_type=domain_type) }}" class="tab">Info</a>
   </nav>
   <div class="wrapper">
     <table class="agency responsive https">
@@ -31,5 +31,5 @@
 </section>
 
 <script src="{{ url_for('static', filename='js/https/agencies.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"
-        data-agency-report-url="{{ url_for('agency_report', report_name='https') }}"></script>
+        data-agency-report-url="{{ url_for('agency_report', report_name=report_name) }}"></script>
 {% endblock %}

@@ -3,7 +3,7 @@
   <div class="donut">
     <div class="https_chart"
         title="BIETEN HTTPS"
-        data-report="{{ url_for('report', report_name='https') }}"></div>
+        data-report="{{ url_for('report', report_name=report_name) }}"></div>
   </div>
   <script src="{{ url_for('static', filename='js/https/donut.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"></script>
 
