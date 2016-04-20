@@ -70,11 +70,9 @@
                 .enter().append("g")
                 .attr("class", "arc");
 
-            g.append("path")
-                .style("fill", function(d) {
+            g.append("path").style("fill", function(d) {
                 return color(d.data.status);
-            })
-                .transition().delay(function(d, i) {
+            }).transition().delay(function(d, i) {
                 return i *400;
             }).duration(400)
                 .attrTween('d', function(d) {
@@ -101,6 +99,16 @@
                 .attr("fill", "white")
                 .text(function(d) {
                     return title;
+            });
+
+            chart.select("g").append("text")
+                .attr("text-anchor", "middle")
+                .attr("class", "total-detail")
+                .attr("dy", (height / 2 / 5) * 2)
+                .attr("fill", "white")
+                .text(function(d) {
+                    var f = function(n) { return d3.format(",")(n).replace(/,/g, '.'); }
+                    return "" + f(data.uses) + " / " + f(data.eligible);
             });
         });
     });
