@@ -193,29 +193,31 @@ def load_scan_data(domains):
         dict_row[headers[i]] = cell
       scan_data[domain]['inspect'] = dict_row
 
-  headers = []
-  with open(os.path.join(INPUT_SCAN_DATA, "tls.csv"), newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
+  for scanner in ['tls', 'sslyze']:
+    if not os.path.exists(os.path.join(INPUT_SCAN_DATA, "%s.csv" % scanner)):
+      continue
+    headers = []
+    with open(os.path.join(INPUT_SCAN_DATA, "%s.csv" % scanner), newline='') as csvfile:
+      for row in csv.reader(csvfile):
+        if (row[0].lower() == "domain"):
+          headers = row
+          continue
 
-      domain = row[0].lower()
-      if not domains.get(domain):
-        # print("[tls] Skipping %s, not a federal domain from domains.csv." % domain)
-        continue
+        domain = row[0].lower()
+        if not domains.get(domain):
+          # print("[tls] Skipping %s, not a federal domain from domains.csv." % domain)
+          continue
 
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
+        dict_row = {}
+        for i, cell in enumerate(row):
+          dict_row[headers[i]] = cell
 
-      # For now: overwrite previous rows if present, use last endpoint.
-      scan_data[domain]['tls'] = dict_row
-
+        # For now: overwrite previous rows if present, use last endpoint.
+        scan_data[domain]['tls'] = dict_row
 
   # Now, analytics measurement.
-  headers = []
   if os.path.exists(os.path.join(INPUT_SCAN_DATA, "analytics.csv")):
+    headers = []
     with open(os.path.join(INPUT_SCAN_DATA, "analytics.csv"), newline='') as csvfile:
       for row in csv.reader(csvfile):
         if (row[0].lower() == "domain"):
@@ -482,12 +484,11 @@ def https_report_for(domain_name, domain, scan_data):
   if (https <= 0):
     grade = -1 # N/A
 
-  elif tls is None:
-    # print("[https][%s] No TLS scan data found." % domain)
+  elif tls is None or tls.get('Grade', None) is None:
+    # print("[https][%s] No TLS grade found." % domain)
     grade = -1 # N/A
 
   else:
-
     grade = {
       "F": 0,
       "T": 1,
