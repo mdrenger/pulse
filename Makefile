@@ -59,13 +59,13 @@ deploy.sh:
 publish: deploy.sh
 	rm -rf build || true
 	mkdir -p build
-	python3 freeze.py
+	python freeze.py
 	echo "https.jetzt" > build/CNAME
 	GIT_DEPLOY_DIR=build GIT_DEPLOY_BRANCH=gh-pages GIT_DEPLOY_REPO=git@github.com:robbi5/pulse.git ./deploy.sh -m "static build" -n
 
 update_httpsjetzt:
 	pip install --user -r requirements.txt
 	docker pull 18fgsa/domain-scan
-	echo -e '#!/bin/bash'"\n"'/usr/bin/docker run --rm -v $(pwd)/data/output/scan:$(pwd)/data/output/scan 18fgsa/domain-scan $@' > docker-scan
+	echo -e '#!/bin/bash'"\n"'/usr/bin/docker run --rm -v $$(pwd)/data/output/scan:$$(pwd)/data/output/scan 18fgsa/domain-scan $$@' > docker-scan
 	chmod +x docker-scan
 	DOMAIN_SCAN_PATH="./docker-scan" SCANNERS=inspect,sslyze python -m data.update --scan=here
