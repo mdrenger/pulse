@@ -493,6 +493,8 @@ a#skipnav {
       font-size: 3em; }
     #analytics #content > header .donut .total-desc, #https #content > header .donut .total-desc, #about #content > header .donut .total-desc, #domain #content > header .donut .total-desc, #agency #content > header .donut .total-desc, #accessibility #content > header .donut .total-desc {
       font-size: 0.8em; }
+    #analytics #content > header .donut .total-detail, #https #content > header .donut .total-detail, #about #content > header .donut .total-detail, #domain #content > header .donut .total-detail, #agency #content > header .donut .total-detail, #accessibility #content > header .donut .total-detail {
+      font-size: 0.85em; }
   #analytics #content > header.chart, #https #content > header.chart, #about #content > header.chart, #domain #content > header.chart, #agency #content > header.chart, #accessibility #content > header.chart {
     padding: 0; }
     #analytics #content > header.chart .description, #https #content > header.chart .description, #about #content > header.chart .description, #domain #content > header.chart .description, #agency #content > header.chart .description, #accessibility #content > header.chart .description {
