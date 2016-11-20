@@ -32,4 +32,5 @@ build/
 !build/.keep
 
 deploy.sh
+docker-scan
 main.css.map
