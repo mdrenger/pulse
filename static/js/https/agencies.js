@@ -7,16 +7,18 @@ $(document).ready(function () {
 
   var percentBar = function(field) {
     return function(data, type, row) {
-      if (type == "sort")
-        return row.https[field];
-      return Utils.progressBar(Utils.percent(
+      percent = Utils.percent(
         row.https[field], row.https.eligible
-      ));
+      );
+
+      if (type == "sort")
+        return percent;
+      return Utils.progressBar(percent);
     };
   }
 
   var renderTable = function(data) {
-    $("table").DataTable({
+    var table = $("table").DataTable({
       responsive: true,
       initComplete: Utils.searchLinks,
 
@@ -40,7 +42,7 @@ $(document).ready(function () {
       columnDefs: [
         {
           targets: 0,
-          cellType: "td",
+          cellType: "th",
           createdCell: function (td) {
             td.scope = "row";
           },
@@ -83,6 +85,11 @@ $(document).ready(function () {
 
       dom: 'Lftrip'
 
+    });
+
+    Utils.updatePagination();
+    table.on("draw.dt",function(){
+      Utils.updatePagination();
     });
   };
 

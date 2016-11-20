@@ -21,7 +21,7 @@
 	<div class="wrapper">
 
 		<header>
-			<h2>Frequently Asked Questions</h2>
+			<h3>Frequently Asked Questions</h3>
 			<ul class="faq-questions">
 				<li>
 					<a href="#what-domains-are-being-measured">Welche Domains werden überprüft?</a>
@@ -58,18 +58,18 @@
 
 		<ul class="faq-answers">
 			<li id="what-domains-are-being-measured">
-				<h3>
+				<h4>
 					Welche Domains werden überprüft?
-				</h3>
+				</h4>
 				<p>
 					Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz verwendet. Woher diese genau stammen, steht auf der <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
 				</p>
 			</li>
 
 			<li id="why-https">
-				<h3>
+				<h4>
 					Was ist HTTPS und warum ist das wichtig?
-				</h3>
+				</h4>
 				<p>
 					<a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
        		So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Themen/StandardsKriterien/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
@@ -80,9 +80,9 @@
 			</li>
 
 			<li id="but-its-expensive">
-				<h3>
+				<h4>
 					Aber HTTPS-Zertifikate sind doch schwierig und teuer?
-				</h3>
+				</h4>
 				<p>
 					Nein. Nicht mehr. Mit <a href="https://letsencrypt.org">Let's Encrypt</a> gibt es eine einfache, sichere und automatisierte Möglichkeit, HTTPS-Zertifikate für Webserver zu bekommen - und noch dazu ist sie kostenlos.
 				</p>
@@ -92,9 +92,9 @@
 			</li>
 
 			<li id="but-why">
-				<h3>
+				<h4>
 					Aber auf unserer Behördenwebseite kann man sich ja gar nicht anmelden/einloggen/..., warum brauchen wir HTTPS?
-				</h3>
+				</h4>
 				<p>
 					Die verschlüsselte Verbindung sichert nicht nur persönliche Daten, die zwischen der Besucher*in und der Webseite ausgetauscht werden. Sie verhindert auch, dass Daten zwischen den beiden unterwegs manipuliert werden - etwa um die Seite zu verändern und <a href="https://citizenlab.org/2014/08/cat-video-and-the-death-of-clear-text/">Werbung oder Malware</a> einzuschleusen. Dies ist besonders bei öffentlichen Hotspots öfter der Fall.
 				</p>
@@ -104,16 +104,16 @@
 			</li>
 
 			<li id="but-its-slow">
-				<h3>
+				<h4>
 					Aber HTTPS ist doch langsamer?
-				</h3>
+				</h4>
 				<p>
 					<a href="https://istlsfastyet.com">Nein.</a>
 				</p>
 			</li>
-
+			
 			<li id="fresh-data">
-				<h3>Wann wurden die Daten zuletzt aktualisiert?</h3>
+				<h4>Wann wurden die Daten zuletzt aktualisiert?</h4>
 
 				<p>
 					Die Liste der Domains und die Daten über die HTTPS-Verwendung wurden zuletzt am <strong>{{ scan_date | date("%d. %B %Y") }}</strong> aktualisiert.
@@ -121,40 +121,40 @@
 			</li>
 
 			<li id="send-feedback">
-				<h3>
+				<h4>
 					Wohin kann ich Feedback senden?
-				</h3>
+				</h4>
 				<p>
 					Für Feedback oder Fragen über <em>{{ site.name }}</em>, <a href="https://github.com/robbi5/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a> oder schicke einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
 			<li id="idea-more-metrics">
-				<h3>
+				<h4>
 					Ich hätte da eine Idee, was man noch auswerten sollte...
-				</h3>
+				</h4>
 				<p>
 					Wunderbar! Falls du Programmierkenntnisse besitzt, freuen wir uns über einen Pull-Request auf <a href="https://github.com/robbi5/pulse/issues">unserem GitHub Repository</a>. Falls nicht - nicht schlimm, wir freuen uns auch über Ideen in Form eines <a href="https://github.com/robbi5/pulse/issues">Issues auf unserem GitHub Repository</a> oder einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
 			<li id="my-info">
-				<h3>
+				<h4>
 					Die Informationen über eine Domain stimmen nicht/sind falsch/...!
-				</h3>
+				</h4>
 				<p>
 					Wenn du gerade erst etwas an der Domain verändert hast, um ein Problem zu beseitigen, kann es sein, dass sich die Daten auf <em>{{ site.name }}</em> erst später aktualisieren.
 					Gerade wird ein Datenupdate noch manuell angestoßen, sodass es etwas dauern kann, bis es auf dieser Seite korrekt erscheint.
-				</p>
+				</p>				
 				<p>
 					Wenn du einen Fehler gefunden hast, <a href="https://github.com/robbi5/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a>.
 				</p>
 			</li>
 
 			<li id="who-created">
-				<h3>
+				<h4>
 					Wer steckt hinter dieser Seite?
-				</h3>
+				</h4>
 				<p>
 					Diese Seite entstand am <a href="http://de.opendataday.org/">OpenDataDay 2016</a> und wurde von Dennis Knorr, <a href="https://robbi5.de">Maximilian Richt</a> und <a href="https://sectio-aurea.org">Ernesto Ruge</a> erstellt.
 				</p>

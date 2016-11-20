@@ -1,41 +1,40 @@
-<header class="site-header">
-    <nav>
-        <div id="main-nav">
-            <h1 id="branding">
-                <a href="{{ url_for('index') }}">{{ site.name }}</a>
-            </h1>
-            <ul id="right-nav">
-                <li>
-                    <a href="{{ url_for('https_domains', domain_type='federal') }}">Behörden</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('https_domains', domain_type='city') }}">Kommunen</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('about') }}">Über diese Seite</a>
-                </li>
-            </ul>
-            <a href="#" id="menu-btn">MENÜ</a>
-        </div>
+<header class="site-header" role="banner">
+  <nav role="nav">
+    <div id="main-nav">
+        <h1 id="branding">
+            <a href="{{ url_for('index') }}">{{ site.name }}</a>
+        </h1>
+        <ul id="right-nav">
+            <li>
+                <a href="{{ url_for('https_domains', domain_type='federal') }}">Behörden</a>
+            </li>
+            <li>
+                <a href="{{ url_for('https_domains', domain_type='city') }}">Kommunen</a>
+            </li>
+            <li>
+                <a href="{{ url_for('about') }}">Über diese Seite</a>
+            </li>
+        </ul>
+        <a href="#" id="menu-btn">MENÜ</a>
+    </div>
+  </nav>
 
-    </nav>
-
-    <nav id="menu-content">
-      <ul>
-        <li><a href="{{ url_for('index') }}">{{ site.name }}</a></li>
-        <li>
-            <a href="{{ url_for('https_domains', domain_type='federal') }}">Behörden</a>
-        </li>
-        <li>
-            <a href="{{ url_for('https_domains', domain_type='city') }}">Kommunen</a>
-        </li>
-        <li>
-            <a href="{{ url_for('about') }}">Über diese Seite</a>
-        </li>
+  <nav id="menu-content" role="nav">
+    <ul>
+      <li>
+          <a tabindex="-1" href="{{ url_for('index') }}">{{ site.name }}</a>
+      </li>
+      <li>
+          <a tabindex="-1" href="{{ url_for('https_domains', domain_type='federal') }}">Behörden</a>
+      </li>
+      <li>
+          <a tabindex="-1" href="{{ url_for('https_domains', domain_type='city') }}">Kommunen</a>
+      </li>
+      <li>
+          <a tabindex="-1" href="{{ url_for('about') }}">Über diese Seite</a>
+      </li>
     </ul>
-    </nav>
+  </nav>
 
-    <div class="overlay"></div>
-
+  <div class="overlay"></div>
 </header>
-
