@@ -142,9 +142,11 @@ def load_domain_data():
       domain_name = row[0].lower().strip()
       domain_type = nice_domain_type_for(row[1].strip())
       agency_name = row[2].strip()
+      state = ''
 
       if domain_type != "federal":
-        agency_name = row[3].strip()
+        agency_name = row[3].strip() # City
+        state = row[4].strip()
 
       agency_slug = slugify.slugify(agency_name)
       branch = "" # empty branch disables analytics
@@ -164,6 +166,7 @@ def load_domain_data():
           'agency_name': agency_name,
           'agency_slug': agency_slug,
           'branch': branch,
+          'state': state,
           'exclude': {}
         }
 
@@ -173,6 +176,7 @@ def load_domain_data():
           'slug': agency_slug,
           'type': domain_type,
           'branch': branch,
+          'state': state,
           'total_domains': 1
         }
 

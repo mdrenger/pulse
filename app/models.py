@@ -54,6 +54,7 @@ class Domain:
   # agency_slug (string)
   # agency_name (string)
   # branch (string, legislative/judicial/executive)
+  # state (string)
   #
   # live? (boolean)
   # redirect? (boolean)
