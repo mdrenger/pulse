@@ -962,32 +962,42 @@ table caption {
     .dataTables_wrapper table.dataTable.dtr-inline.collapsed th:first-child:before {
       top: 9px;
       background-color: #3399ff; }
+    .dataTables_wrapper table.dataTable > tbody > tr.child td {
+      padding-top: 0; }
     .dataTables_wrapper table.dataTable > tbody > tr.child ul li {
       border-bottom: none;
       padding: 0 0 3px 0; }
     .dataTables_wrapper table.dataTable > tbody > tr.child span.dtr-title {
-      min-width: 50px; }
-    .dataTables_wrapper table.dataTable.https.domain tbody tr.parent td {
+      display: inline;
+      min-width: auto; }
+    .dataTables_wrapper table.dataTable.https.domain tbody tr.parent th, .dataTables_wrapper table.dataTable.https.domain tbody tr.parent td {
       border-bottom: none !important; }
     .dataTables_wrapper table.dataTable.https.domain tbody tr:hover {
       background-color: #EEE;
       cursor: pointer; }
       .dataTables_wrapper table.dataTable.https.domain tbody tr:hover + .child {
         background-color: #EEE; }
-    .dataTables_wrapper table.dataTable.agency td {
-      padding: 15px 0 15px 40px !important; }
-      @media screen and (max-width: 1024px) {
-        .dataTables_wrapper table.dataTable.agency td {
-          padding-left: 32px !important; }
-          .dataTables_wrapper table.dataTable.agency td:first-child:before {
-            top: 30px !important; } }
-      @media screen and (max-width: 767px) {
+    @media screen and (max-width: 1024px) {
+      .dataTables_wrapper table.dataTable.agency td {
+        padding-left: 32px !important; }
         .dataTables_wrapper table.dataTable.agency td:first-child:before {
-          top: 15px !important; } }
+          top: 30px !important; } }
+    @media screen and (max-width: 767px) {
+      .dataTables_wrapper table.dataTable.agency td:first-child:before {
+        top: 15px !important; } }
+    .dataTables_wrapper table.dataTable.agency p.progress {
+      display: inline-block;
+      font-weight: 900;
+      font-size: 0.875em;
+      min-width: 35px;
+      vertical-align: middle; }
     .dataTables_wrapper table.dataTable.agency .progress-bar-indication {
       background-color: #CCC;
       border-radius: 20px;
-      width: 70%; }
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: middle;
+      width: 65%; }
       .dataTables_wrapper table.dataTable.agency .progress-bar-indication > .meter {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -996,7 +1006,7 @@ table caption {
         background-repeat: repeat-x;
         background-size: 40px 40px;
         border-radius: 20px 0 0 20px;
-        margin: 15px 0;
+        margin: 0;
         display: block;
         height: 100%;
         width: 60%; }
@@ -1008,11 +1018,6 @@ table caption {
           background-color: transparent; }
         .dataTables_wrapper table.dataTable.agency .progress-bar-indication > .meter.width3 {
           background-color: transparent; }
-      .dataTables_wrapper table.dataTable.agency .progress-bar-indication p {
-        font-weight: 900;
-        font-size: 0.875em;
-        position: relative;
-        top: -18px; }
   .dataTables_wrapper .dataTables_info {
     padding-top: 0 !important; }
   .dataTables_wrapper .dataTables_paginate a.paginate_button {

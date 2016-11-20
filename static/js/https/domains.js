@@ -189,17 +189,17 @@ $(document).ready(function () {
 
     // CASE: HTTPS supported, not enforced, no HSTS.
     else if ((https >= 1) && (behavior < 2) && (hsts < 2))
-      details = "HTTPS supported, but not enforced.";
+      details = "Diese Domain unterstützt HTTPS, aber erzwingt es nicht.";
 
     // CASE: HTTPS downgrades.
     else if (https == 0)
-      details = "HTTPS redirects visitors down to HTTP."
+      details = "Diese Domain leitet Besucher von HTTPS auf HTTP um."
 
     // CASE: HTTPS isn't supported at all.
     else if (https == -1)
       // TODO SUBCASE: It's a "redirect domain".
       // SUBCASE: Everything else.
-      details = "No support for HTTPS."
+      details = "Diese Domain unterstützt kein HTTPS."
 
     else
       details = "";
@@ -274,10 +274,11 @@ $(document).ready(function () {
           data: "https.hsts",
           render: display(names.hsts)
         },
-        /*{
+        {
           data: "https.preloaded",
           render: display(names.preloaded)
         },
+        /*
         {
           data: "https.grade",
           render: linkGrade

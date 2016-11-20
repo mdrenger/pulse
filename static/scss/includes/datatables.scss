@@ -151,12 +151,16 @@ table caption {
 
     > tbody {
       > tr.child {
+        td {
+          padding-top: 0;
+        }
         ul li {
           border-bottom: none;
           padding: 0 0 3px 0;
         }
         span.dtr-title {
-          min-width: 50px;
+          display: inline;
+          min-width: auto;
         }
       }
     }
@@ -165,7 +169,7 @@ table caption {
       tbody {
         tr {
           &.parent {
-            td { border-bottom: none !important; }
+            th, td { border-bottom: none !important; }
           }
           &:hover {
             background-color: #EEE;
@@ -181,8 +185,6 @@ table caption {
     &.agency {
 
       td {
-        padding: 15px 0 15px 40px !important;
-
         @include media($large) {
           padding-left: 32px !important;
           &:first-child:before { top: 30px !important; }
@@ -192,10 +194,21 @@ table caption {
         }
       }
 
+      p.progress {
+        display: inline-block;
+        font-weight: 900;
+        font-size: 0.875em;
+        min-width: 35px;
+        vertical-align: middle;
+      }
+
       .progress-bar-indication {
         background-color: #CCC;
         border-radius: 20px;
-        width: 70%;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: middle;
+        width: 65%;
 
         > .meter {
           @include box-sizing(border-box);
@@ -203,7 +216,7 @@ table caption {
           background-repeat: repeat-x;
           background-size: 40px 40px;
           border-radius: 20px 0 0 20px;
-          margin: 15px 0;
+          margin: 0;
           display: block;
           height: 100%;
           width: 60%;
@@ -213,13 +226,6 @@ table caption {
           @for $i from 1 through 3 {
             &.width#{$i} { background-color: transparent }
           }
-        }
-
-        p {
-          font-weight: 900;
-          font-size: 0.875em;
-          position: relative;
-          top: -18px;
         }
       }
     }
