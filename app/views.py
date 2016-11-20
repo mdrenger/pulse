@@ -101,7 +101,11 @@ def register(app):
   # Sanity-check RSS feed, shows the latest report.
   @app.route("/data/reports/feed/")
   def report_feed():
-        return render_template("feed.xml")
+        report_federal = models.Report.latest().get('https-federal', {})
+        report_city = models.Report.latest().get('https-city', {})
+        response = Response(render_template("feed.xml", report_federal=report_federal, report_city=report_city))
+        response.headers['Content-Type'] = 'application/rss+xml'
+        return response
 
 
   @app.errorhandler(404)
