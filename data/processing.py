@@ -210,8 +210,9 @@ def load_scan_data(domains):
         dict_row[headers[i]] = cell
       scan_data[domain]['pshtt'] = dict_row
 
-  headers = []
-  with open(os.path.join(INPUT_SCAN_DATA, "tls.csv"), newline='') as csvfile:
+  if os.path.exists(os.path.join(INPUT_SCAN_DATA, "tls.csv")):
+    headers = []
+    with open(os.path.join(INPUT_SCAN_DATA, "tls.csv"), newline='') as csvfile:
       for row in csv.reader(csvfile):
         if (row[0].lower() == "domain"):
           headers = row
@@ -440,7 +441,6 @@ def https_report_for(domain_name, domain, scan_data):
   # Without HTTPS there can be no HSTS.
   if (https <= 0):
     hsts = -1  # N/A (considered 'No')
-
   else:
 
     # HSTS is present for the canonical endpoint.
@@ -452,7 +452,7 @@ def https_report_for(domain_name, domain, scan_data):
       else:
         hsts = 1  # No
 
-      else:
+    else:
       hsts = 0  # No
 
   # Separate preload status from HSTS status:
@@ -463,7 +463,7 @@ def https_report_for(domain_name, domain, scan_data):
     preloaded = 2  # Yes
   elif (pshtt["HSTS Preload Ready"] == "True"):
     preloaded = 1  # Ready for submission
-    else:
+  else:
     preloaded = 0  # No
 
   report['hsts'] = hsts
@@ -617,6 +617,8 @@ def shell_out(command, env=None):
         return None
 
 def percent(num, denom):
+  if denom == 0:
+    return 0
   return round((num / denom) * 100)
 
 # mkdir -p in python, from:
