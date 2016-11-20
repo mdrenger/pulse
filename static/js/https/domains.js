@@ -306,14 +306,16 @@ $(document).ready(function () {
 
       pageLength: 25,
 
-      "oLanguage": {
-        "sSearch": "Suche:",
-        "sLengthMenu": "Zeige _MENU_ Einträge",
-        "sInfo": "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
-        "sInfoFiltered": "(von insgesamt _MAX_ Einträgen)",
-        "oPaginate": {
-          "sPrevious": "<<",
-          "sNext": ">>"
+      language: {
+        search: "Suche:",
+        lengthMenu: "Zeige _MENU_ Einträge",
+        emptyTable: "Keine Daten in dieser Tabelle verfügbar",
+        info: "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
+        infoEmpty: "Zeige 0 - 0 von 0 Einträgen",
+        infoFiltered: "(von insgesamt _MAX_ Einträgen)",
+        paginate: {
+          previous: "<<",
+          next: ">>"
         }
       },
 
