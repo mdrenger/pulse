@@ -1,11 +1,17 @@
 <!doctype html>
 <html lang="de">
 <head>
+<!-- Title and meta description
+================================================== -->
 <title>HTTPS bei Behördenwebseiten - Info - https.jetzt!</title>
 <meta property="og:title" content="HTTPS bei Behördenwebseiten - Info - https.jetzt!" />
+<meta name="twitter:title" content="HTTPS bei Behördenwebseiten - Info" />
 
 <meta name="description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind.">
 <meta property="og:description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind." />
+<meta name="twitter:description" content="Zeigt, wie viele Behördenwebseiten über HTTPS erreichbar sind." />
+
+<link rel="canonical" href="https://https.jetzt/https/federal/info/" />
 
 <!-- Basic Page Needs
 ================================================== -->
@@ -19,6 +25,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
 <meta name="root_url" content="/">
+
+<!-- Twitter Specific Metas
+================================================== -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@httpsjetzt" />
+<meta name="twitter:creator" content="@httpsjetzt" />
+<meta name="twitter:image" content="https://https.jetzt/static/images/logo-httpsjetzt.png" />
+<meta name="twitter:image:alt" content="https.jetzt!" />
 
 <!-- Favicons
 ================================================== -->
@@ -44,25 +58,33 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 ================================================== -->
 <link rel="stylesheet" href="/static/css/normalize.min.css">
 <link rel="stylesheet" href="/static/css/google-fonts.css">
-<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/dataTables.responsive.css">
-<link rel="stylesheet" href="/static/css/main.css?201610304183534">
+
+<link rel="stylesheet" href="/static/css/main.css?201611326131429">
 
 <!-- Scripts
 ================================================== -->
 <script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
 <script src="/static/js/vendor/jquery.min.js"></script>
-<script src="/static/js/vendor/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
-<script src="/static/js/vendor/DataTables-1.10.6/media/js/dataTables.responsive.js"></script>
-<script src="/static/js/vendor/dataTables.lengthLinks.js"></script>
-<script src="/static/js/dataTables.downloads.js"></script>
+
 <script src="/static/js/vendor/d3.min.js"></script>
 <script src="/static/js/vendor/querystring.js"></script>
-<script src="/static/js/utils.js?201610304183534"></script>
+<script src="/static/js/utils.js?201611326131429"></script>
+
+
+<!-- sigh, datatables -->
+
+<link rel="stylesheet" href="/static/DataTables-1.10.12/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="/static/Responsive-2.1.0/css/responsive.dataTables.min.css">
+
+<script src="/static/DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="/static/Responsive-2.1.0/js/dataTables.responsive.min.js"></script>
+
+<script src="/static/js/dataTables.lengthLinks.js"></script>
+<script src="/static/js/dataTables.downloads.js"></script>
 </head>
 
 <body id="https">
-<a id="skipnav" href="#content">Zum Inhalt</a>
+<a id="skipnav" href="#skip-target" onclick="document.getElementById('skip-target').focus()">Skip to main content</a>
 <!--[if lte IE 9]>
   <section>
     <h2>Your browser is out of date.</h2>
@@ -77,49 +99,49 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
   </section>
 <![endif]-->
 
-<header class="site-header">
-    <nav>
-        <div id="main-nav">
-            <h1 id="branding">
-                <a href="/">https.jetzt!</a>
-            </h1>
-            <ul id="right-nav">
-                <li>
-                    <a href="/https/federal/domains/">Behörden</a>
-                </li>
-                <li>
-                    <a href="/https/city/domains/">Kommunen</a>
-                </li>
-                <li>
-                    <a href="/about/">Über diese Seite</a>
-                </li>
-            </ul>
-            <a href="#" id="menu-btn">MENÜ</a>
-        </div>
+<header class="site-header" role="banner">
+  <nav role="nav">
+    <div id="main-nav">
+      <h1 id="branding">
+        <a href="/">https.jetzt!</a>
+      </h1>
+      <ul id="right-nav">
+        <li>
+          <a href="/https/federal/domains/">Behörden</a>
+        </li>
+        <li>
+          <a href="/https/city/domains/">Kommunen</a>
+        </li>
+        <li>
+          <a href="/about/">Über diese Seite</a>
+        </li>
+      </ul>
+      <a href="#" id="menu-btn">MENÜ</a>
+    </div>
+  </nav>
 
-    </nav>
-
-    <nav id="menu-content">
-      <ul>
-        <li><a href="/">https.jetzt!</a></li>
-        <li>
-            <a href="/https/federal/domains/">Behörden</a>
-        </li>
-        <li>
-            <a href="/https/city/domains/">Kommunen</a>
-        </li>
-        <li>
-            <a href="/about/">Über diese Seite</a>
-        </li>
+  <nav id="menu-content" role="nav">
+    <ul>
+      <li>
+        <a tabindex="-1" href="/">https.jetzt!</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/https/federal/domains/">Behörden</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/https/city/domains/">Kommunen</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/about/">Über diese Seite</a>
+      </li>
     </ul>
-    </nav>
+  </nav>
 
-    <div class="overlay"></div>
-
+  <div class="overlay"></div>
 </header>
 
-
-<section id="content">
+<section id="content" role="main">
+  <a name="skip-target" id="skip-target" tabindex='-1' href='#' class="sr-only">Start of Main Content</a>
   
 
 <header class="chart">
@@ -129,16 +151,17 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
         title="BIETEN HTTPS"
         data-report="/data/reports/https-federal.json"></div>
   </div>
-  <script src="/static/js/https/donut.js?201610304183534"></script>
+  <script src="/static/js/https/donut.js?201611326131429"></script>
 
   <div class="description">
     <h1>Sicheres HTTP (HTTPS)</h1>
-    <h2>Letzter Update: <strong>29. Oktober 2016</strong></h2>
+    <h3>Letzter Update: <strong>21. November 2016</strong></h3>
     <p>
        Diese Daten zeigen, ob Domains deutscher Behörden das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
        <a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
        So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Themen/StandardsKriterien/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
     </p>
+
     <p>
       Auch wenn HTTPS eingesetzt wird, bedeutet das nicht, dass eine Webseite nicht trotzdem gehackt werden kann. Für mehr Informationen, was HTTPS tut (und was es nicht tun kann), <a href="https://https.cio.gov/faq/">besuche die HTTPS FAQ</a> (in Englisch).
     </p>
@@ -148,24 +171,24 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
 <section id="main-content" class="white-bkg">
 
-  <nav class="tab-menu">
-    <a href="/https/federal/domains/" class="tab">Nach Domain</a>
-    <a href="/https/federal/agencies/" class="tab">Nach Behörde</a>
-    <span class="tab">Info</span>
+  <nav class="tab-menu" role="tablist">
+    <a href="/https/federal/domains/" class="tab" role="tab" aria-controls="tab-panel" aria-selected="false">Nach Domain</a>
+    <a href="/https/federal/agencies/" class="tab" role="tab" aria-controls="tab-panel" aria-selected="false">Nach Behörde</a>
+    <span class="tab" role="tab" aria-controls="tab-panel" aria-selected="true">Info</span>
   </nav>
 
-  <div class="wrapper">
+  <div id="tab-panel" class="wrapper" role="tabpanel" aria-hidden="false">
 
     <div class="guide">
 
-      <h2>Was bedeuten die Daten an den Domains? Warum braucht man HTTPS? Diese und weitere Fragen werden auch in der <a href="/about/">FAQ</a> beantwortet.</h2>
+      <h3>Was bedeuten die Daten an den Domains? Warum braucht man HTTPS? Diese und weitere Fragen werden auch in der <a href="/about/">FAQ</a> beantwortet.</h3>
 
       <article>
 
         <h3>Welche Domains werden überprüft?</h3>
 
         <p>
-          Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz, verwendet. Woher diese genau stammen, steht auf der <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
+          Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz verwendet. Woher diese genau stammen, steht auf der <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
         </p>
 
         <p>
@@ -177,7 +200,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
         </p>
 
         <p>
-          Diese Überprüfungen erfolgen mit Hilfe von <a href="https://github.com/benbalter/site-inspector">Open Source</a> <a href="https://github.com/18F/domain-scan">Tools</a>.
+          Diese Überprüfungen erfolgen mit Hilfe von <a href="https://github.com/dhs-ncats/pshtt">Open Source</a> <a href="https://github.com/18F/domain-scan">Tools</a>.
         </p>
 
       </article>
@@ -202,11 +225,16 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
         <ul>
           <li><strong>Strict Transport Security (HSTS)</strong></li>
-          <li><strong>Möglichkeiten:</strong> Nein, Ja, "Ja, preload-ready", "Ja, preloaded"</li>
+          <li><strong>Möglichkeiten:</strong> Nein, Ja</li>
           <li>Ob eine Domain <a href="https://https.cio.gov/hsts/">HTTP Strict Transport Security</a> implementiert. Dies bedeutet, dass <a href="http://caniuse.com/#search=hsts">unterstütze Browser</a> nur noch über HTTPS mit einer Domain kommunizieren, selbst wenn man auf einen HTTP-Link klickt.</li>
           <li>"Ja" bedeutet, dass ein <code>Strict-Transport-Security</code>-Header ausgeliefert wird.</li>
-          <li>"Ja, preload-ready" bedeutet, dass auf dieser Domain ein HSTS-Header ausgeliefert wird, der für alle Subdomains gilt und für <a href="https://hstspreload.appspot.com">preloading</a> markiert ist.</li>
-          <li>"Ja, preloaded" bedeutet, dass diese Domain "preload-ready" ist (siehe oben) <strong>und</strong> die Domain in der öffentlich verfügbaren <a href="https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json">Chrome preload Liste</a> eingetragen ist.
+        </ul>
+
+        <ul>
+          <li><strong>Preloaded (empfohlen)</strong></li>
+          <li><strong>Möglichkeiten:</strong> Nein, Vorbereitet, Ja</li>
+          <li><em>Vorbereitet</em> bedeutet, dass auf dieser Domain ein HSTS-Header ausgeliefert wird, der für alle Subdomains gilt und für <a href="https://hstspreload.appspot.com">preloading</a> markiert ist. Damit kann nun eine Eintragung in die Browserlisten beantragt werden.</li>
+          <li><em>Ja</em> bedeutet, dass diese Domain vorbereitet ist (siehe oben) <strong>und</strong> bereits in der öffentlich verfügbaren <a href="https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json">Chrome preload Liste</a> eingetragen ist.
           </li>
         </ul>
 
@@ -221,7 +249,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
 </section>
 
-<footer>
+<footer role="contentinfo">
 	<div class="wrapper">
     Entstanden am <a href="http://de.opendataday.org/">OpenDataDay 2016</a>. Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz.
     <br/>

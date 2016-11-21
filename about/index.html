@@ -1,11 +1,17 @@
 <!doctype html>
 <html lang="de">
 <head>
+<!-- Title and meta description
+================================================== -->
 <title>Über diese Seite - https.jetzt!</title>
 <meta property="og:title" content="Über diese Seite - https.jetzt!" />
+<meta name="twitter:title" content="Über diese Seite" />
 
 <meta name="description" content="Frequently Asked Questions und weitere Informationen über https.jetzt!">
 <meta property="og:description" content="Frequently Asked Questions und weitere Informationen über https.jetzt!" />
+<meta name="twitter:description" content="Frequently Asked Questions und weitere Informationen über https.jetzt!" />
+
+<link rel="canonical" href="https://https.jetzt/about/" />
 
 <!-- Basic Page Needs
 ================================================== -->
@@ -19,6 +25,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
 <meta name="root_url" content="/">
+
+<!-- Twitter Specific Metas
+================================================== -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@httpsjetzt" />
+<meta name="twitter:creator" content="@httpsjetzt" />
+<meta name="twitter:image" content="https://https.jetzt/static/images/logo-httpsjetzt.png" />
+<meta name="twitter:image:alt" content="https.jetzt!" />
 
 <!-- Favicons
 ================================================== -->
@@ -44,25 +58,33 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 ================================================== -->
 <link rel="stylesheet" href="/static/css/normalize.min.css">
 <link rel="stylesheet" href="/static/css/google-fonts.css">
-<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="/static/js/vendor/DataTables-1.10.6/media/css/dataTables.responsive.css">
-<link rel="stylesheet" href="/static/css/main.css?201610304183534">
+
+<link rel="stylesheet" href="/static/css/main.css?201611326131429">
 
 <!-- Scripts
 ================================================== -->
 <script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
 <script src="/static/js/vendor/jquery.min.js"></script>
-<script src="/static/js/vendor/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
-<script src="/static/js/vendor/DataTables-1.10.6/media/js/dataTables.responsive.js"></script>
-<script src="/static/js/vendor/dataTables.lengthLinks.js"></script>
-<script src="/static/js/dataTables.downloads.js"></script>
+
 <script src="/static/js/vendor/d3.min.js"></script>
 <script src="/static/js/vendor/querystring.js"></script>
-<script src="/static/js/utils.js?201610304183534"></script>
+<script src="/static/js/utils.js?201611326131429"></script>
+
+
+<!-- sigh, datatables -->
+
+<link rel="stylesheet" href="/static/DataTables-1.10.12/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="/static/Responsive-2.1.0/css/responsive.dataTables.min.css">
+
+<script src="/static/DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="/static/Responsive-2.1.0/js/dataTables.responsive.min.js"></script>
+
+<script src="/static/js/dataTables.lengthLinks.js"></script>
+<script src="/static/js/dataTables.downloads.js"></script>
 </head>
 
 <body id="about">
-<a id="skipnav" href="#content">Zum Inhalt</a>
+<a id="skipnav" href="#skip-target" onclick="document.getElementById('skip-target').focus()">Skip to main content</a>
 <!--[if lte IE 9]>
   <section>
     <h2>Your browser is out of date.</h2>
@@ -77,49 +99,49 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
   </section>
 <![endif]-->
 
-<header class="site-header">
-    <nav>
-        <div id="main-nav">
-            <h1 id="branding">
-                <a href="/">https.jetzt!</a>
-            </h1>
-            <ul id="right-nav">
-                <li>
-                    <a href="/https/federal/domains/">Behörden</a>
-                </li>
-                <li>
-                    <a href="/https/city/domains/">Kommunen</a>
-                </li>
-                <li>
-                    <a href="/about/">Über diese Seite</a>
-                </li>
-            </ul>
-            <a href="#" id="menu-btn">MENÜ</a>
-        </div>
+<header class="site-header" role="banner">
+  <nav role="nav">
+    <div id="main-nav">
+      <h1 id="branding">
+        <a href="/">https.jetzt!</a>
+      </h1>
+      <ul id="right-nav">
+        <li>
+          <a href="/https/federal/domains/">Behörden</a>
+        </li>
+        <li>
+          <a href="/https/city/domains/">Kommunen</a>
+        </li>
+        <li>
+          <a href="/about/">Über diese Seite</a>
+        </li>
+      </ul>
+      <a href="#" id="menu-btn">MENÜ</a>
+    </div>
+  </nav>
 
-    </nav>
-
-    <nav id="menu-content">
-      <ul>
-        <li><a href="/">https.jetzt!</a></li>
-        <li>
-            <a href="/https/federal/domains/">Behörden</a>
-        </li>
-        <li>
-            <a href="/https/city/domains/">Kommunen</a>
-        </li>
-        <li>
-            <a href="/about/">Über diese Seite</a>
-        </li>
+  <nav id="menu-content" role="nav">
+    <ul>
+      <li>
+        <a tabindex="-1" href="/">https.jetzt!</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/https/federal/domains/">Behörden</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/https/city/domains/">Kommunen</a>
+      </li>
+      <li>
+        <a tabindex="-1" href="/about/">Über diese Seite</a>
+      </li>
     </ul>
-    </nav>
+  </nav>
 
-    <div class="overlay"></div>
-
+  <div class="overlay"></div>
 </header>
 
-
-<section id="content">
+<section id="content" role="main">
+  <a name="skip-target" id="skip-target" tabindex='-1' href='#' class="sr-only">Start of Main Content</a>
   
 <header>
 
@@ -137,7 +159,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 	<div class="wrapper">
 
 		<header>
-			<h2>Frequently Asked Questions</h2>
+			<h3>Frequently Asked Questions</h3>
 			<ul class="faq-questions">
 				<li>
 					<a href="#what-domains-are-being-measured">Welche Domains werden überprüft?</a>
@@ -174,18 +196,18 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
 		<ul class="faq-answers">
 			<li id="what-domains-are-being-measured">
-				<h3>
+				<h4>
 					Welche Domains werden überprüft?
-				</h3>
+				</h4>
 				<p>
 					Aktuell werden Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz verwendet. Woher diese genau stammen, steht auf der <a href="https://github.com/robbi5/german-gov-domains">Projektseite</a>.
 				</p>
 			</li>
 
 			<li id="why-https">
-				<h3>
+				<h4>
 					Was ist HTTPS und warum ist das wichtig?
-				</h3>
+				</h4>
 				<p>
 					<a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
        		So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Themen/StandardsKriterien/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
@@ -196,9 +218,9 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 			</li>
 
 			<li id="but-its-expensive">
-				<h3>
+				<h4>
 					Aber HTTPS-Zertifikate sind doch schwierig und teuer?
-				</h3>
+				</h4>
 				<p>
 					Nein. Nicht mehr. Mit <a href="https://letsencrypt.org">Let's Encrypt</a> gibt es eine einfache, sichere und automatisierte Möglichkeit, HTTPS-Zertifikate für Webserver zu bekommen - und noch dazu ist sie kostenlos.
 				</p>
@@ -208,9 +230,9 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 			</li>
 
 			<li id="but-why">
-				<h3>
+				<h4>
 					Aber auf unserer Behördenwebseite kann man sich ja gar nicht anmelden/einloggen/..., warum brauchen wir HTTPS?
-				</h3>
+				</h4>
 				<p>
 					Die verschlüsselte Verbindung sichert nicht nur persönliche Daten, die zwischen der Besucher*in und der Webseite ausgetauscht werden. Sie verhindert auch, dass Daten zwischen den beiden unterwegs manipuliert werden - etwa um die Seite zu verändern und <a href="https://citizenlab.org/2014/08/cat-video-and-the-death-of-clear-text/">Werbung oder Malware</a> einzuschleusen. Dies ist besonders bei öffentlichen Hotspots öfter der Fall.
 				</p>
@@ -220,57 +242,57 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 			</li>
 
 			<li id="but-its-slow">
-				<h3>
+				<h4>
 					Aber HTTPS ist doch langsamer?
-				</h3>
+				</h4>
 				<p>
 					<a href="https://istlsfastyet.com">Nein.</a>
 				</p>
 			</li>
-
+			
 			<li id="fresh-data">
-				<h3>Wann wurden die Daten zuletzt aktualisiert?</h3>
+				<h4>Wann wurden die Daten zuletzt aktualisiert?</h4>
 
 				<p>
-					Die Liste der Domains und die Daten über die HTTPS-Verwendung wurden zuletzt am <strong>29. Oktober 2016</strong> aktualisiert.
+					Die Liste der Domains und die Daten über die HTTPS-Verwendung wurden zuletzt am <strong>21. November 2016</strong> aktualisiert.
 				</p>
 			</li>
 
 			<li id="send-feedback">
-				<h3>
+				<h4>
 					Wohin kann ich Feedback senden?
-				</h3>
+				</h4>
 				<p>
 					Für Feedback oder Fragen über <em>https.jetzt!</em>, <a href="https://github.com/robbi5/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a> oder schicke einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
 			<li id="idea-more-metrics">
-				<h3>
+				<h4>
 					Ich hätte da eine Idee, was man noch auswerten sollte...
-				</h3>
+				</h4>
 				<p>
 					Wunderbar! Falls du Programmierkenntnisse besitzt, freuen wir uns über einen Pull-Request auf <a href="https://github.com/robbi5/pulse/issues">unserem GitHub Repository</a>. Falls nicht - nicht schlimm, wir freuen uns auch über Ideen in Form eines <a href="https://github.com/robbi5/pulse/issues">Issues auf unserem GitHub Repository</a> oder einen Tweet an <a href="https://twitter.com/robbi5">@robbi5</a>.
 				</p>
 			</li>
 
 			<li id="my-info">
-				<h3>
+				<h4>
 					Die Informationen über eine Domain stimmen nicht/sind falsch/...!
-				</h3>
+				</h4>
 				<p>
 					Wenn du gerade erst etwas an der Domain verändert hast, um ein Problem zu beseitigen, kann es sein, dass sich die Daten auf <em>https.jetzt!</em> erst später aktualisieren.
 					Gerade wird ein Datenupdate noch manuell angestoßen, sodass es etwas dauern kann, bis es auf dieser Seite korrekt erscheint.
-				</p>
+				</p>				
 				<p>
 					Wenn du einen Fehler gefunden hast, <a href="https://github.com/robbi5/pulse/issues">öffne bitte ein Issue in unserem GitHub Repository</a>.
 				</p>
 			</li>
 
 			<li id="who-created">
-				<h3>
+				<h4>
 					Wer steckt hinter dieser Seite?
-				</h3>
+				</h4>
 				<p>
 					Diese Seite entstand am <a href="http://de.opendataday.org/">OpenDataDay 2016</a> und wurde von Dennis Knorr, <a href="https://robbi5.de">Maximilian Richt</a> und <a href="https://sectio-aurea.org">Ernesto Ruge</a> erstellt.
 				</p>
@@ -285,7 +307,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
 </section>
 
-<footer>
+<footer role="contentinfo">
 	<div class="wrapper">
     Entstanden am <a href="http://de.opendataday.org/">OpenDataDay 2016</a>. Domains aus dem <a href="https://github.com/robbi5/german-gov-domains">german-gov-domains</a>-Datensatz.
     <br/>

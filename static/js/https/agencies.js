@@ -7,16 +7,18 @@ $(document).ready(function () {
 
   var percentBar = function(field) {
     return function(data, type, row) {
-      if (type == "sort")
-        return row.https[field];
-      return Utils.progressBar(Utils.percent(
+      percent = Utils.percent(
         row.https[field], row.https.eligible
-      ));
+      );
+
+      if (type == "sort")
+        return percent;
+      return Utils.progressBar(percent);
     };
   }
 
   var renderTable = function(data) {
-    $("table").DataTable({
+    var table = $("table").DataTable({
       responsive: true,
       initComplete: Utils.searchLinks,
 
@@ -40,7 +42,7 @@ $(document).ready(function () {
       columnDefs: [
         {
           targets: 0,
-          cellType: "td",
+          cellType: "th",
           createdCell: function (td) {
             td.scope = "row";
           },
@@ -70,19 +72,26 @@ $(document).ready(function () {
 
       pageLength: 25,
 
-      "oLanguage": {
-        "sSearch": "Suche:",
-        "sLengthMenu": "Zeige _MENU_ Einträge",
-        "sInfo": "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
-        "sInfoFiltered": "(von insgesamt _MAX_ Einträgen)",
-        "oPaginate": {
-          "sPrevious": "<<",
-          "sNext": ">>"
+      language: {
+        search: "Suche:",
+        lengthMenu: "Zeige _MENU_ Einträge",
+        emptyTable: "Keine Daten in dieser Tabelle verfügbar",
+        info: "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
+        infoEmpty: "Zeige 0 - 0 von 0 Einträgen",
+        infoFiltered: "(von insgesamt _MAX_ Einträgen)",
+        paginate: {
+          previous: "<<",
+          next: ">>"
         }
       },
 
       dom: 'Lftrip'
 
+    });
+
+    Utils.updatePagination();
+    table.on("draw.dt",function(){
+      Utils.updatePagination();
     });
   };
 
