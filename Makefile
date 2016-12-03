@@ -66,6 +66,6 @@ publish: deploy.sh
 update_httpsjetzt:
 	pip install --user -r requirements.txt
 	docker pull 18fgsa/domain-scan
-	echo -e '#!/bin/bash'"\n"'/usr/bin/docker run --rm -v $$(pwd)/data/output/scan:$$(pwd)/data/output/scan 18fgsa/domain-scan $$@' > docker-scan
+	printf '#!/bin/bash'"\n"'docker run --rm -v $$(pwd)/data/output/scan:$$(pwd)/data/output/scan 18fgsa/domain-scan $$@' > docker-scan
 	chmod +x docker-scan
 	DOMAIN_SCAN_PATH="./docker-scan" SCANNERS=pshtt,sslyze,inspect python -m data.update --scan=here
