@@ -7,8 +7,16 @@ name: "https.jetzt!"
 title: "https.jetzt!"
 description: "Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte Verbindung möglich?"
 
-# Data source URLs. They shouldn't require manual updates.
+# Data sources. These URLs should have their content updated in-place.
 data:
   # URL where we download the .gov domain list from.
-  domains_url: https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv
-  analytics_url: ''
+  domains_url: "http://robbi5.com/domains.csv"
+   #"https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv"
+
+  # URL where we download the participating DAP .gov list from.
+  analytics_url: ""
+
+  # DAP URL where we source public .gov subdomains from.
+  analytics_subdomains_url: ""
+
+bucket: unused

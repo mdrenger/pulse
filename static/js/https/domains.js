@@ -64,6 +64,57 @@ $(document).ready(function () {
     }
   };
 
+  // Describe what's going on with this domain's subdomains.
+  var subdomains = function(data, type, row) {
+    if (type == "sort") return null;
+
+    // If the domain is preloaded, responsibilities are absolved.
+    if (row.https.preloaded == 2)
+      return "All subdomains automatically protected through preloading.";
+
+    if (row.https.preloaded == 1)
+      return "All subdomains will be protected when preloading is complete.";
+
+    if (!row.https.subdomains) {
+      return "";
+      if (row.https.uses >= 1)
+        return "No public subdomains found. " + l("preload", "Consider preloading.");
+      else
+        return "No public subdomains found.";
+    }
+
+    var sources = [],
+        message = "",
+        pct = null;
+
+    // TODO: make this a function.
+    if (row.https.subdomains.censys) {
+      pct = Utils.percent(row.https.subdomains.censys.enforces, row.https.subdomains.censys.eligible);
+      message = n("" + pct + "%") + " of " +
+        row.https.subdomains.censys.eligible + " public sites "
+        + l(censysUrlFor(row.domain), "known to Censys") +
+        " enforce HTTPS.";
+      sources.push(message);
+    }
+
+    if (row.https.subdomains.dap) {
+      pct = Utils.percent(row.https.subdomains.dap.enforces, row.https.subdomains.dap.eligible);
+      sources.push(n("" + pct + "%") + " of " +
+        row.https.subdomains.dap.eligible + " public sites " +
+        l(links.dap_data, "known to the Digital Analytics Program") +
+        " enforce HTTPS.")
+    }
+
+    if (sources.length == 0)
+      return "";
+
+    sources.push("For more details, " + l(links.subdomains, "read our methodology") +
+      ", or " + l(agencyDownloadFor(row), "download subdomain data for this agency") + ".");
+
+    var p = "<p class=\"indents\">";
+    return n("Known public subdomains: ") + p + sources.join("</p>" + p) + "</p>";
+  };
+
   var linkGrade = function(data, type, row) {
     var grade = display(names.grade)(data, type);
     if (type == "sort")
@@ -81,6 +132,15 @@ $(document).ready(function () {
     return "https://www.ssllabs.com/ssltest/analyze.html?d=" + domain;
   };
 
+  var censysUrlFor = function(domain) {
+    return "https://censys.io/certificates?q=" +
+      "parsed.subject.common_name:%22" + domain +
+      "%22%20or%20parsed.extensions.subject_alt_name.dns_names:%22" + domain + "%22";
+  };
+
+  var agencyDownloadFor = function(row) {
+    return "https://s3-us-gov-west-1.amazonaws.com/cg-4adefb86-dadb-4ecf-be3e-f1c7b4f6d084/live/subdomains/agencies/" + row["agency_slug"] + "/https.csv";
+  };
 
   // Construct a sentence explaining the HTTP situation.
   var httpDetails = function(data, type, row) {
@@ -138,9 +198,11 @@ $(document).ready(function () {
     var urgent = (grade == 0);
 
     // CASE: Perfect score!
+    // HSTS max-age is allowed to be weak, because client enforcement means that
+    // the max-age is effectively overridden in modern browsers.
     if (
         (https >= 1) && (behavior >= 2) &&
-        (hsts == 2) && (preloaded == 2) &&
+        (hsts >= 1) && (preloaded == 2) &&
         (tls.length == 0) && (grade == 6))
       details = g("Perfekt! HTTPS is strictly enforced throughout the zone.");
 
@@ -149,8 +211,6 @@ $(document).ready(function () {
         (https >= 1) && (behavior >= 2) &&
         (hsts == 2) && (preloaded == 2)) {
       details = g("Fast perfekt!") + " " + tlsDetails;
-      // Override F grade override.
-      urgent = false;
     }
 
     // CASE: HSTS preloaded, but HSTS header is missing.
@@ -213,11 +273,16 @@ $(document).ready(function () {
   };
 
   var links = {
+    dap: "https://analytics.usa.gov",
+    dap_data: "https://analytics.usa.gov/data/live/sites.csv",
+    censys: "https://censys.io",
     hsts: "https://https.cio.gov/hsts/",
     sha1: "https://https.cio.gov/technical-guidelines/#signature-algorithms",
     ssl3: "https://https.cio.gov/technical-guidelines/#ssl-and-tls",
     tls12: "https://https.cio.gov/technical-guidelines/#ssl-and-tls",
     preload: "https://https.cio.gov/hsts/#hsts-preloading",
+    subdomains: "/https/guidance/#subdomains",
+    preloading_compliance: "https://https.cio.gov/guide/#options-for-hsts-compliance",
     stay_preloaded: "https://hstspreload.appspot.com/#continued-requirements",
     submit: "https://hstspreload.appspot.com"
   };
@@ -286,6 +351,10 @@ $(document).ready(function () {
         {
           data: "",
           render: httpDetails
+        },
+        {
+          data: "",
+          render: subdomains
         }
         /*
         {

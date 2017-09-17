@@ -7,6 +7,10 @@ import ujson
 
 def register(app):
 
+  @app.route("/data/")
+  def data():
+      return render_template("data.html")
+
   @app.route("/")
   def index():
       return render_template("index.html")
@@ -50,7 +54,6 @@ def register(app):
         domains = models.Agency.eligible_for_type(domain_type, report_name)
       else:
         domains = models.Agency.eligible(report_name)
-
       response = Response(ujson.dumps({'data': domains}))
       response.headers['Content-Type'] = 'application/json'
       return response

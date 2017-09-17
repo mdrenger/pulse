@@ -1,49 +1,57 @@
 $(document).ready(function () {
 
-  $.get("/static/data/tables/accessibility/agencies.json", function(data) {
+  $.get("/static/data/tables/customer-satisfaction/agencies.json", function(data) {
     renderTable(data.data);
   });
 
   var renderTable = function(data) {
     var table = $("table").DataTable({
       responsive: true,
-      initComplete: Utils.searchLinks,
 
       data: data,
 
+      initComplete: Utils.searchLinks,
+
       columns: [
         {
-          data: "agency",
+          data: "name",
           cellType: "th"
         },
         {
-          data: "Color Contrast - Initial Findings"
+          data: "eligible",
+          render: Utils.filterAgency("customer-satisfaction")
         },
         {
-          data: "HTML Attribute - Initial Findings"
-        },
-        {
-          data: "Missing Image Descriptions"
+          data: "participating",
         }
       ],
 
+      // order by number of domains
       order: [[1, "desc"]],
 
       columnDefs: [
         {
           targets: 0,
-          cellType: "th",
+          cellType: "td",
           createdCell: function (td) {
             td.scope = "row";
           }
+        },
+        {
+          render: function(data, type, row) {
+            var percent = Utils.percent(
+              row.participating, row.eligible
+            )
+            if (type == "sort")
+              return percent;
+            return Utils.progressBar(percent);
+          },
+          targets: 2,
+          type: "html-num-fmt"
         }
       ],
 
       "oLanguage": {
-        "sSearch": "Suche:",
-        "sLengthMenu": "Zeige _MENU_ Einträge",
-        "sInfo": "Zeige _START_ - _END_ von _TOTAL_ Einträgen",
-        "sInfoFiltered": "(von insgesamt _MAX_ Einträgen)",
         "oPaginate": {
           "sPrevious": "<<",
           "sNext": ">>"
@@ -59,5 +67,5 @@ $(document).ready(function () {
       Utils.updatePagination();
     });
   };
-  
+
 });
