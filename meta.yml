@@ -10,8 +10,7 @@ description: "Zu wie vielen Behördenwebsites ist eine sichere, verschlüsselte 
 # Data sources. These URLs should have their content updated in-place.
 data:
   # URL where we download the .gov domain list from.
-  domains_url: "http://robbi5.com/domains.csv"
-   #"https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv"
+  domains_url: "https://raw.githubusercontent.com/robbi5/german-gov-domains/master/data/domains.csv"
 
   # URL where we download the participating DAP .gov list from.
   analytics_url: ""
