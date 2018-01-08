@@ -69,7 +69,14 @@
           <li>"Ja" bedeutet, dass ein <code>Strict-Transport-Security</code>-Header ausgeliefert wird.</li>
         </ul>
 
-        <ul>
+        <ul id="known-weak-crypto">
+          <li><strong>Frei von veralteter/unsicherer Crypto:</strong></li>
+          <li><strong>Möglichkeiten:</strong> Ja, "Nein, nutzt [...]"</li>
+          <li>"Ja" bedeutet, dass eine Verbindung nicht mittels den veralteteten/unsicheren Verschlüsselungsverfahren RC4/3DES und SSLv2/SSLv3 stattfinden kann.</li>
+          <li>"Nein, nutzt [...]" zeigt, welche Verschlüsselungsverfahren und Protokolle verwendet werden, die bekannte Schwachstellen enthalten.</li>
+        </ul>
+
+        <ul id="uses-preloading">
           <li><strong>Preloaded (empfohlen)</strong></li>
           <li><strong>Möglichkeiten:</strong> Nein, Vorbereitet, Ja</li>
           <li><em>Vorbereitet</em> bedeutet, dass auf dieser Domain ein HSTS-Header ausgeliefert wird, der für alle Subdomains gilt und für <a href="https://hstspreload.appspot.com">preloading</a> markiert ist. Damit kann nun eine Eintragung in die Browserlisten beantragt werden.</li>
