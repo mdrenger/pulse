@@ -54,10 +54,10 @@ $(function () {
           data: "totals.https.hsts",
           render: Tables.percentTotals("https", "hsts")
         },
-        {
+        /*{
           data: "totals.crypto.bod_crypto",
           render: Tables.percentTotals("crypto", "bod_crypto")
-        },
+        },*/
         {
           data: "https.preloaded",
           render: display(names.preloaded)
