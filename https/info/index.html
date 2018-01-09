@@ -59,16 +59,16 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 <link rel="stylesheet" href="/static/css/normalize.min.css">
 <link rel="stylesheet" href="/static/css/google-fonts.css">
 
-<link rel="stylesheet" href="/static/css/main.css?201702058080435">
+<link rel="stylesheet" href="/static/css/main.css?201801009190309">
 
 <!-- Scripts
 ================================================== -->
 <script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
-<script src="/static/js/vendor/jquery.min.js"></script>
+<script src="/static/js/vendor/jquery-3.2.1.min.js"></script>
 
 <script src="/static/js/vendor/d3.min.js"></script>
 <script src="/static/js/vendor/querystring.js"></script>
-<script src="/static/js/utils.js?201702058080435"></script>
+<script src="/static/js/utils.js?201801009190309"></script>
 
 
 <!-- sigh, datatables -->
@@ -79,7 +79,6 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 <script src="/static/DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="/static/Responsive-2.1.0/js/dataTables.responsive.min.js"></script>
 
-<script src="/static/js/dataTables.lengthLinks.js"></script>
 <script src="/static/js/dataTables.downloads.js"></script>
 </head>
 
@@ -151,17 +150,16 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
         title="BIETEN HTTPS"
         data-report="/data/reports/https-federal.json"></div>
   </div>
-  <script src="/static/js/https/donut.js?201702058080435"></script>
+  <script src="/static/js/https/donut.js?201801009190309"></script>
 
   <div class="description">
     <h1>Sicheres HTTP (HTTPS)</h1>
-    <h3>Letzter Update: <strong>26. Februar 2017</strong></h3>
+    <h3>Letzter Update: <strong>09. Januar 2018</strong></h3>
     <p>
        Diese Daten zeigen, ob Domains deutscher Behörden das HTTPS-Protokoll (<code>https://</code>) unterstützen, und - falls ja - wie stark diese Unterstützung ist.
        <a href="https://de.wikipedia.org/wiki/HTTPS">HTTPS</a> ermöglicht eine sichere Verbindung zwischen Webseiten und ihren Besuchern und wird zum Mindeststandard für öffentliche Web-Services.
        So empfiehlt auch das BSI den <a href="https://www.bsi.bund.de/DE/Themen/StandardsKriterien/Mindeststandards/SSL-TLS-Protokoll/SSL-TLS-Protokoll.html">Einsatz von HTTPS als Mindeststandard für die öffentliche Verwaltung</a>.
     </p>
-
     <p>
       Auch wenn HTTPS eingesetzt wird, bedeutet das nicht, dass eine Webseite nicht trotzdem gehackt werden kann. Für mehr Informationen, was HTTPS tut (und was es nicht tun kann), <a href="https://https.cio.gov/faq/">besuche die HTTPS FAQ</a> (in Englisch).
     </p>
@@ -223,14 +221,23 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
           <li>Ob eine Webseite standardmäßig HTTPS bietet. Dies kann passieren, indem HTTP auf HTTPS umleitet oder sogar nur über HTTPS verfügbar gemacht wird.</li>
         </ul>
 
-        <ul>
+        <ul id="uses-hsts">
           <li><strong>Strict Transport Security (HSTS)</strong></li>
           <li><strong>Möglichkeiten:</strong> Nein, Ja</li>
           <li>Ob eine Domain <a href="https://https.cio.gov/hsts/">HTTP Strict Transport Security</a> implementiert. Dies bedeutet, dass <a href="http://caniuse.com/#search=hsts">unterstütze Browser</a> nur noch über HTTPS mit einer Domain kommunizieren, selbst wenn man auf einen HTTP-Link klickt.</li>
           <li>"Ja" bedeutet, dass ein <code>Strict-Transport-Security</code>-Header ausgeliefert wird.</li>
         </ul>
 
-        <ul>
+        <!--
+        <ul id="known-weak-crypto">
+          <li><strong>Frei von veralteter/unsicherer Crypto:</strong></li>
+          <li><strong>Möglichkeiten:</strong> Ja, "Nein, nutzt [...]"</li>
+          <li>"Ja" bedeutet, dass eine Verbindung nicht mittels den veralteteten/unsicheren Verschlüsselungsverfahren RC4/3DES und SSLv2/SSLv3 stattfinden kann.</li>
+          <li>"Nein, nutzt [...]" zeigt, welche Verschlüsselungsverfahren und Protokolle verwendet werden, die bekannte Schwachstellen enthalten.</li>
+        </ul>
+        -->
+
+        <ul id="uses-preloading">
           <li><strong>Preloaded (empfohlen)</strong></li>
           <li><strong>Möglichkeiten:</strong> Nein, Vorbereitet, Ja</li>
           <li><em>Vorbereitet</em> bedeutet, dass auf dieser Domain ein HSTS-Header ausgeliefert wird, der für alle Subdomains gilt und für <a href="https://hstspreload.appspot.com">preloading</a> markiert ist. Damit kann nun eine Eintragung in die Browserlisten beantragt werden.</li>
@@ -260,6 +267,7 @@ https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chr
 
 
 <script src="/static/js/main.js"></script>
+<script src="/static/js/tables.js"></script>
 
 </body>
 </html>

@@ -22,7 +22,7 @@ $xlarge:      new-breakpoint(max-width 1200px, 12);
 $dark-blue:       darken(#0066CC, 20%);
 $medium-blue:     #369;
 $light-blue:      #0066CC;
-$green:          #2da52d;
+$green:          #7ed321;
 $red:      #ca1b1b;
 
 // Custom font sizing
@@ -154,7 +154,11 @@ a#skipnav {
 
         .description {
           @include span-columns(8);
+
           padding-top: 30px;
+
+          a {text-decoration: underline;}
+
           @include media($medium) {
             @include span-columns(12);
             padding: 40px 20px 20px 20px;
