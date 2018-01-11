@@ -77,8 +77,7 @@ publish: deploy.sh
 	GIT_DEPLOY_DIR=build GIT_DEPLOY_BRANCH=gh-pages GIT_DEPLOY_REPO=git@github.com:robbi5/pulse.git ./deploy.sh -m "static build" -n
 
 update_httpsjetzt:
-	pip install --user -r requirements.txt
-	docker pull 18fgsa/domain-scan
-	printf '#!/bin/bash'"\n"'docker run --rm -v $$(pwd)/data/output/scan:$$(pwd)/data/output/scan 18fgsa/domain-scan $$@' > docker-scan
-	chmod +x docker-scan
-	DOMAIN_SCAN_PATH="./docker-scan" SCANNERS=pshtt,sslyze python -m data.update --scan=here
+	pip3 install --user -r requirements.txt
+	mkdir -p data/output/subdomains/gather/results
+	touch data/output/subdomains/gather/results/gathered.csv
+	DOMAIN_SCAN_PATH="../domain-scan/scan" SCANNERS=pshtt,sslyze python3 -m data.update --scan=here --gather=skip --lambda

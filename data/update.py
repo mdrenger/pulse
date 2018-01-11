@@ -224,8 +224,8 @@ def scan_parents(options):
 
   # Until third_parties and a11y are moved to Lambda, can't
   # do Lambda-sized worker count. Stick with default (10).
-  # if options.get("lambda"):
-  #   full_command += ["--workers=%i" % LAMBDA_WORKERS]
+  if options.get("lambda"):
+     full_command += ["--workers=%i" % LAMBDA_WORKERS]
 
   shell_out(full_command)
 

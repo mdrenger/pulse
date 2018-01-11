@@ -13,7 +13,17 @@ Dieses Repository ist somit ein Fork von [18F/pulse](https://github.com/18F/puls
 
 Die Domains am besten dem [german-gov-domains](https://github.com/robbi5/german-gov-domains)-Datensatz hinzufügen.
 
-Danach lassen sich mit Hilfe des [`domain-scan`-Containers](https://github.com/18F/domain-scan) neue scan-Ergebnisse erzeugen: `make update_httpsjetzt`
+Danach lassen sich mit Hilfe von [`domain-scan`](https://github.com/18F/domain-scan) neue scan-Ergebnisse erzeugen.
+Dazu neben `pulse` das `domain-scan`-Repo auschecken und Abhängigkeiten installieren:
+
+    cd ..
+    git clone https://github.com/18f/domain-scan.git
+    cd domain-scan
+    pip3 install --user -r requirements.txt
+    cd ..
+    cd pulse
+
+und pulse mittels `make update_httpsjetzt` updaten.
 
 ---
 
