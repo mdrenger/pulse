@@ -30,11 +30,11 @@ $(document).ready(function () {
         {
           data: "https.hsts",
           render: Tables.percent("https", "hsts")
-        },/*
+        },
         {
           data: "crypto.bod_crypto",
           render: Tables.percent("crypto", "bod_crypto")
-        },*/
+        },
         {
           data: "preloading.preloaded",
           render: Tables.percent("preloading", "preloaded")
