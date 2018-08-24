@@ -33,7 +33,7 @@ A11Y_REDIRECTS = META["a11y"]["redirects"]
 
 ### Parent domain scanning information
 #
-scanner_string = os.environ.get("SCANNERS", "pshtt,sslyze") #,analytics,a11y,third_parties")
+scanner_string = os.environ.get("SCANNERS", "pshtt,sslyze") #,analytics
 SCANNERS = scanner_string.split(",")
 
 ### subdomain gathering/scanning information
@@ -42,14 +42,15 @@ GATHER_SUFFIXES = os.environ.get("GATHER_SUFFIXES", ".gov,.fed.us")
 # names and options must be in corresponding order
 GATHERER_NAMES = [
   "censys-snapshot", "rdns-snapshot",
-  "dap", "eot2016", "parents"
+  "dap", "eot2016", "other", "dotgov"
 ]
 GATHERER_OPTIONS = [
   "--censys-snapshot=%s" % META["data"]["censys_snapshot_url"],
   "--rdns-snapshot=%s" % META["data"]["rdns_snapshot_url"],
   "--dap=%s" % META["data"]["analytics_subdomains_url"],
   "--eot2016=%s" % META["data"]["eot_subdomains_url"],
-  "--parents=%s" % DOMAINS
+  "--other=%s" % META['data']['other_subdomains_url'],
+  "--dotgov=%s" % DOMAINS
 ]
 
 # Run these scanners over *all* (which is a lot) discovered subdomains.

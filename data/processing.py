@@ -29,8 +29,12 @@ import subprocess
 
 # Import all the constants from data/env.py.
 from data.env import *
+from data import logger
 
 from statistics import mean
+
+
+LOGGER = logger.get_logger(__name__)
 
 this_dir = os.path.dirname(__file__)
 
@@ -129,13 +133,13 @@ def run(date, options):
     if pshtt is None:
       # generally means scan was on different domains.csv, but
       # invalid domains can hit this.
-      print("[%s][WARNING] No pshtt data for domain!" % domain_name)
+      LOGGER.warning("[%s] No pshtt data for domain!" % domain_name)
 
       # Remove the domain from further consideration.
       # Destructive, so have this done last.
       del domains[domain_name]
     else:
-      # print("[%s] Updating with pshtt metadata." % domain_name)
+      # LOGGER.info("[%s] Updating with pshtt metadata." % domain_name)
       domains[domain_name]['live'] = boolean_for(pshtt['Live'])
       domains[domain_name]['redirect'] = boolean_for(pshtt['Redirect'])
       domains[domain_name]['canonical'] = pshtt['Canonical URL']
@@ -161,7 +165,7 @@ def run(date, options):
   process_domains(domains, agencies, subdomains, parent_scan_data, subdomain_scan_data)
 
   # Reset the database.
-  print("Clearing the database.")
+  LOGGER.info("Clearing the database.")
   models.clear_database()
 
   # Calculate agency-level summaries. Updates `agencies` in-place.
@@ -172,15 +176,15 @@ def run(date, options):
   report['report_type'] = 'all'
   report['report_date'] = date
 
-  print("Creating all domains.")
+  LOGGER.info("Creating all domains.")
   Domain.create_all(domains[domain_name] for domain_name in sorted_domains)
-  print("Creating all subdomains.")
+  LOGGER.info("Creating all subdomains.")
   Domain.create_all(subdomains[subdomain_name] for subdomain_name in sorted_subdomains)
-  print("Creating all agencies.")
+  LOGGER.info("Creating all agencies.")
   Agency.create_all(agencies[agency_name] for agency_name in sorted_agencies)
 
   # Create top-level summaries.
-  print("Creating government-wide totals.")
+  LOGGER.info("Creating government-wide totals.")
   Report.create(report)
 
   for domain_type in DOMAIN_TYPES:
@@ -202,38 +206,45 @@ def load_domain_data():
   # if domains.csv wasn't cached, download it anew
 
   if not os.path.exists(PARENT_DOMAINS_CSV):
-    print("Downloading domains.csv...")
+    LOGGER.info("Downloading domains.csv...")
     mkdir_p(PARENT_CACHE)
     shell_out(["wget", DOMAINS, "-O", PARENT_DOMAINS_CSV])
 
   if not os.path.exists(PARENT_DOMAINS_CSV):
-    print("Couldn't download domains.csv")
+    LOGGER.critical("Couldn't download domains.csv")
     exit(1)
 
+  headers = []
   with open(PARENT_DOMAINS_CSV, newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if row[0].lower().startswith("domain"):
-        continue
-
-      domain_name = row[0].lower().strip()
-      domain_type = nice_domain_type_for(row[1].strip())
-      agency_name = row[2].strip()
+    for dict_row in csv.DictReader(csvfile):
+      domain_name = dict_row["Domain Name"].lower().strip()
+      domain_type = nice_domain_type_for(dict_row["Domain Type"].strip())
+      agency_name = dict_row["Agency"].strip()
+      agency_slug = slugify.slugify(agency_name)
       state = ''
 
-      if domain_type != "federal":
-        agency_name = row[3].strip() # City
-        state = row[4].strip()
+      ## FIXME
+      #if domain_type != "federal":
+      #  agency_name = row[3].strip() # City
+      #  state = row[4].strip()
 
       agency_slug = slugify.slugify(agency_name)
-      branch = "" # empty branch disables analytics
+
+      # Unused and not stored for now, but noting here.
+      # org_name = dict_row["Organization"].strip()
 
       # Exclude cities, counties, tribes, etc.
-      #if domain_type != "Federal Agency":
+      #if not (domain_type.startswith("Federal Agency")):
       #  continue
 
-      # There are a few erroneously marked non-federal domains.
-      #if branch == "non-federal":
-      #  continue
+      # There is one federal domain with an agency of "Non-Federal Agency",
+      # based in Puerto Rico. Ambiguous whether to include it.
+      if agency_name == "Non-Federal Agency":
+        continue
+
+      # Extract legislative/judicial/executive from the domain type.
+      #branch = branch_for(domain_type)
+      branch = "" # empty branch disables analytics
 
       # Exclude non-federal branches. (Sigh.)
       #if branch != "executive":
@@ -311,44 +322,30 @@ def load_parent_scan_data(domains):
 
   headers = []
   with open(os.path.join(PARENT_RESULTS, "pshtt.csv"), newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
-
-      domain = row[0].lower()
+    for dict_row in csv.DictReader(csvfile):
+      domain = dict_row['Domain'].lower()
       if not domains.get(domain):
         if domains.get(strip_www(domain)):
           domain = strip_www(domain)
         else:
-          # print("[pshtt] Skipping %s, not a federal domain from domains.csv." % domain)
+          # LOGGER.info("[pshtt] Skipping %s, not a federal domain from domains.csv." % domain)
           continue
 
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
+
       parent_scan_data[domain]['pshtt'] = dict_row
 
   headers = []
   with open(os.path.join(PARENT_RESULTS, "sslyze.csv"), newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
-
-      domain = row[0].lower()
+    for dict_row in csv.DictReader(csvfile):
+      domain = dict_row['Domain'].lower()
       if not domains.get(domain):
-      # print("[sslyze] Skipping %s, not a federal domain from domains.csv." % domain)
+        # LOGGER.info("[sslyze] Skipping %s, not a federal domain from domains.csv." % domain)
         continue
-
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
 
       # If the scan was invalid, most fields will be empty strings.
       # It'd be nice to make this more semantic on the domain-scan side.
-      if dict_row["Scanned Hostname"] == "":
-        # print("[%s] Skipping, scan data was invalid." % subdomain)
+      if dict_row["SSLv2"] == "":
+        # LOGGER.info("[%s] Skipping, scan data was invalid." % subdomain)
         continue
 
       parent_scan_data[domain]['sslyze'] = dict_row
@@ -357,67 +354,58 @@ def load_parent_scan_data(domains):
   if os.path.isfile(os.path.join(PARENT_RESULTS, "analytics.csv")):
     headers = []
     with open(os.path.join(PARENT_RESULTS, "analytics.csv"), newline='') as csvfile:
-      for row in csv.reader(csvfile):
-        if (row[0].lower() == "domain"):
-          headers = row
-          continue
-
-        domain = row[0].lower()
+      for dict_row in csv.DictReader(csvfile):
+        domain = dict_row['Domain'].lower()
         if not domains.get(domain):
-          # print("[analytics] Skipping %s, not a federal domain from domains.csv." % domain)
+        # LOGGER.info("[analytics] Skipping %s, not a federal domain from domains.csv." % domain)
           continue
 
         # If it didn't appear in the pshtt data, skip it, we need this.
         # if not domains[domain].get('pshtt'):
-        #   print("[analytics] Skipping %s, did not appear in pshtt.csv." % domain)
+        #   LOGGER.info("[analytics] Skipping %s, did not appear in pshtt.csv." % domain)
         #   continue
-
-        dict_row = {}
-        for i, cell in enumerate(row):
-          dict_row[headers[i]] = cell
 
         parent_scan_data[domain]['analytics'] = dict_row
 
   # And a11y! Only try to load it if it exists, since scan is not yet automated.
-  if os.path.isfile(os.path.join(PARENT_RESULTS, "a11y.csv")):
-    headers = []
-    with open(os.path.join(PARENT_RESULTS, "a11y.csv"), newline='') as csvfile:
-      for row in csv.reader(csvfile):
-        if (row[0].lower() == "domain"):
-          headers = row
-          continue
+  # if os.path.isfile(os.path.join(PARENT_RESULTS, "a11y.csv")):
+  #   headers = []
+  #   with open(os.path.join(PARENT_RESULTS, "a11y.csv"), newline='') as csvfile:
+  #     for row in csv.reader(csvfile):
+  #       if (row[0].lower() == "domain"):
+  #         headers = row
+  #         continue
 
-        domain = row[0].lower()
-        if not domains.get(domain):
-          continue
+  #       domain = row[0].lower()
+  #       if not domains.get(domain):
+  #         continue
 
-        dict_row = {}
-        for i, cell in enumerate(row):
-          dict_row[headers[i]] = cell
-        if not parent_scan_data[domain].get('a11y'):
-          parent_scan_data[domain]['a11y'] = [dict_row]
-        else:
-          parent_scan_data[domain]['a11y'].append(dict_row)
+  #       dict_row = {}
+  #       for i, cell in enumerate(row):
+  #         dict_row[headers[i]] = cell
+  #       if not parent_scan_data[domain].get('a11y'):
+  #         parent_scan_data[domain]['a11y'] = [dict_row]
+  #       else:
+  #         parent_scan_data[domain]['a11y'].append(dict_row)
 
-  # Customer satisfaction, as well. Same as a11y, only load if it exists
-  if os.path.isfile(os.path.join(PARENT_RESULTS, "third_parties.csv")):
-    headers = []
-    with open(os.path.join(PARENT_RESULTS, "third_parties.csv"), newline='') as csvfile:
-      for row in csv.reader(csvfile):
-        if (row[0].lower() == "domain"):
-          headers = row
-          continue
+  # # Customer satisfaction, as well. Same as a11y, only load if it exists
+  # if os.path.isfile(os.path.join(PARENT_RESULTS, "third_parties.csv")):
+  #   headers = []
+  #   with open(os.path.join(PARENT_RESULTS, "third_parties.csv"), newline='') as csvfile:
+  #     for row in csv.reader(csvfile):
+  #       if (row[0].lower() == "domain"):
+  #         headers = row
+  #         continue
 
-        domain = row[0].lower()
-        if not domains.get(domain):
-          # print("[tls] Skipping %s, not a federal domain from domains.csv." % domain)
-          continue
+  #       domain = row[0].lower()
+  #       if not domains.get(domain):
+  #         continue
 
-        dict_row = {}
-        for i, cell in enumerate(row):
-          dict_row[headers[i]] = cell
+  #       dict_row = {}
+  #       for i, cell in enumerate(row):
+  #         dict_row[headers[i]] = cell
 
-        parent_scan_data[domain]['cust_sat'] = dict_row
+  #       parent_scan_data[domain]['cust_sat'] = dict_row
 
   return parent_scan_data
 
@@ -436,38 +424,27 @@ def load_subdomain_scan_data(domains, parent_scan_data, gathered_subdomains):
 
   headers = []
   with open(pshtt_subdomains_csv, newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
-
-      subdomain = row[0].lower()
-      parent_domain = row[1].lower()
+    for dict_row in csv.DictReader(csvfile):
+      subdomain = dict_row['Domain'].lower()
+      parent_domain = dict_row['Base Domain'].lower()
 
       if subdomain not in gathered_subdomains:
-        # print("[%s] Skipping, not a gathered subdomain." % subdomain)
+        # LOGGER.info("[%s] Skipping, not a gathered subdomain." % subdomain)
         continue
 
       if not domains.get(parent_domain):
-        # print("[%s] Skipping, not a subdomain of a tracked domain." % (subdomain))
+        # LOGGER.info("[%s] Skipping, not a subdomain of a tracked domain." % (subdomain))
         continue
 
       if domains[parent_domain]['branch'] != 'executive':
-        # print("[%s] Skipping, not displaying data on subdomains of legislative or judicial domains." % (subdomain))
+        # LOGGER.info("[%s] Skipping, not displaying data on subdomains of legislative or judicial domains." % (subdomain))
         continue
-
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
 
       # Optimization: only bother storing in memory if Live is True.
       if boolean_for(dict_row['Live']):
 
         # Initialize subdomains obj if this is its first one.
-        if parent_scan_data[parent_domain].get('subdomains') is None:
-          parent_scan_data[parent_domain]['subdomains'] = []
-
-        parent_scan_data[parent_domain]['subdomains'].append(subdomain)
+        parent_scan_data[parent_domain].setdefault('subdomains', []).append(subdomain)
 
         # if there are dupes for some reason, they'll be overwritten
         subdomain_scan_data[subdomain] = {'pshtt': dict_row}
@@ -489,25 +466,17 @@ def load_subdomain_scan_data(domains, parent_scan_data, gathered_subdomains):
 
   headers = []
   with open(sslyze_subdomains_csv, newline='') as csvfile:
-    for row in csv.reader(csvfile):
-      if (row[0].lower() == "domain"):
-        headers = row
-        continue
-
-      subdomain = row[0].lower()
+    for dict_row in csv.DictReader(csvfile):
+      subdomain = dict_row['Domain'].lower()
 
       if not subdomain_scan_data.get(subdomain):
-        # print("[%s] Skipping, we didn't save pshtt data for this." % (subdomain))
+        # LOGGER.info("[%s] Skipping, we didn't save pshtt data for this." % (subdomain))
         continue
-
-      dict_row = {}
-      for i, cell in enumerate(row):
-        dict_row[headers[i]] = cell
 
       # If the scan was invalid, most fields will be empty strings.
       # It'd be nice to make this more semantic on the domain-scan side.
-      if dict_row["Scanned Hostname"] == "":
-        # print("[%s] Skipping, scan data was invalid." % subdomain)
+      if dict_row["SSLv2"] == "":
+        # LOGGER.info("[%s] Skipping, scan data was invalid." % subdomain)
         continue
 
       # if there are dupes for some reason, they'll be overwritten
@@ -565,7 +534,7 @@ def process_domains(domains, agencies, subdomains, parent_scan_data, subdomain_s
 
     # even if not eligible directly, can be eligible via subdomains
     elif len(eligible_children) > 0:
-      https_parent['eligible_zone'] = True
+        https_parent['eligible_zone'] = True
 
     # If the parent zone is preloaded, make sure that each subdomain
     # is considered to have HSTS in place. If HSTS is yes on its own,
@@ -585,7 +554,7 @@ def process_domains(domains, agencies, subdomains, parent_scan_data, subdomain_s
 
     # For SSLv2/SSLv3/RC4/3DES, sslyze-eligible parent + subdomains.
     subdomain_names = parent_scan_data[domain_name].get('subdomains', [])
-    eligible_reports = [subdomains[name]['https'] for name in subdomain_names if subdomains[subdomain_name].get('https') and subdomains[subdomain_name]['https'].get('rc4') is not None]
+    eligible_reports = [subdomains[name]['https'] for name in subdomain_names if subdomains[name].get('https') and subdomains[name]['https'].get('rc4') is not None]
     if https_parent and https_parent.get('rc4') is not None:
       eligible_reports = [https_parent] + eligible_reports
     totals['crypto'] = total_crypto_report(eligible_reports)
@@ -600,15 +569,15 @@ def process_domains(domains, agencies, subdomains, parent_scan_data, subdomain_s
         domain_name, domains[domain_name], parent_scan_data
       )
 
-    if eligible_for_a11y(domains[domain_name]):
-      domains[domain_name]['a11y'] = a11y_report_for(
-        domain_name, domains[domain_name], parent_scan_data
-      )
+    # if eligible_for_a11y(domains[domain_name]):
+    #   domains[domain_name]['a11y'] = a11y_report_for(
+    #     domain_name, domains[domain_name], parent_scan_data
+    #   )
 
-    if eligible_for_cust_sat(domains[domain_name]):
-      domains[domain_name]['cust_sat'] = cust_sat_report_for(
-        domain_name, domains[domain_name], parent_scan_data
-      )
+    # if eligible_for_cust_sat(domains[domain_name]):
+    #   domains[domain_name]['cust_sat'] = cust_sat_report_for(
+    #     domain_name, domains[domain_name], parent_scan_data
+    #   )
 
 # Given a list of domains or subdomains, quick filter to which
 # are eligible for this report, optionally for an agency.
@@ -623,30 +592,30 @@ def update_agency_totals(agencies, domains, subdomains):
     agency = agencies[agency_slug]
 
     # HTTPS. Parent and subdomains.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'https'))
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'https'))
     eligible = eligible_for('https', domains, agency) + eligible_for('https', subdomains, agency)
     agency['https'] = total_https_report(eligible)
 
     # Separate report for crypto, for sslyze-scanned domains.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'crypto'))
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'crypto'))
     eligible = [domain['https'] for name, domain in domains.items() if (domain['agency_slug'] == agency['slug']) and domain.get('https') and (domain['https'].get('rc4') is not None)]
     eligible = eligible + [subdomain['https'] for name, subdomain in subdomains.items() if (subdomain['agency_slug'] == agency['slug']) and subdomain.get('https') and (subdomain['https'].get('rc4') is not None)]
     agency['crypto'] = total_crypto_report(eligible)
 
     # Special separate report for preloaded parent domains.
     # All parent domains, whether they use HTTP or not, are eligible.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'preloading'))
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'preloading'))
     eligible = [host['https'] for hostname, host in domains.items() if host['agency_slug'] == agency_slug]
     agency['preloading'] = total_preloading_report(eligible)
 
 
     # Analytics. Parent domains.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'analytics'))
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'analytics'))
     eligible = eligible_for('analytics', domains, agency)
     totals = {
-        'eligible': len(eligible),
-        'participating': 0
-      }
+      'eligible': len(eligible),
+      'participating': 0
+    }
     for report in eligible:
       if report['participating'] == True:
         totals['participating'] += 1
@@ -654,40 +623,40 @@ def update_agency_totals(agencies, domains, subdomains):
 
 
     # Accessibility. Parent domains.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'a11y'))
-    eligible = eligible_for('a11y', domains, agency)
-    pages_count = len(eligible)
-    errors = {e:0 for e in A11Y_ERRORS.values()}
-    for a11y in eligible:
-      for error in a11y['errorlist']:
-        errors[error] += a11y['errorlist'][error]
-    total_errors = sum(errors.values())
-    avg_errors_per_page = (
-      'n/a' if pages_count == 0 else round(float(total_errors) / pages_count, 2)
-    )
-    totals = {
-      'eligible': pages_count,
-      'pages_count': pages_count,
-      'Average Errors per Page': avg_errors_per_page
-    }
-    if pages_count:
-      averages = ({
-        e: round(mean([report['errorlist'][e] for report in eligible]), 2)
-        for e in A11Y_ERRORS.values()
-      })
-    else:
-      averages = {e: 'n/a' for e in A11Y_ERRORS.values()}
-    totals.update(averages)
-    agency['a11y'] = totals
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'a11y'))
+    # eligible = eligible_for('a11y', domains, agency)
+    # pages_count = len(eligible)
+    # errors = {e:0 for e in A11Y_ERRORS.values()}
+    # for a11y in eligible:
+    #   for error in a11y['errorlist']:
+    #     errors[error] += a11y['errorlist'][error]
+    # total_errors = sum(errors.values())
+    # avg_errors_per_page = (
+    #   'n/a' if pages_count == 0 else round(float(total_errors) / pages_count, 2)
+    # )
+    # totals = {
+    #   'eligible': pages_count,
+    #   'pages_count': pages_count,
+    #   'Average Errors per Page': avg_errors_per_page
+    # }
+    # if pages_count:
+    #   averages = ({
+    #     e: round(mean([report['errorlist'][e] for report in eligible]), 2)
+    #     for e in A11Y_ERRORS.values()
+    #   })
+    # else:
+    #   averages = {e: 'n/a' for e in A11Y_ERRORS.values()}
+    # totals.update(averages)
+    # agency['a11y'] = totals
 
 
     # Customer satisfaction. Parent domains.
-    # print("[%s][%s] Totalling report." % (agency['slug'], 'cust_sat'))
-    eligible = eligible_for('cust_sat', domains, agency)
-    agency['cust_sat'] = {
-      'eligible': len(eligible),
-      'participating': len([report for report in eligible if report['participating']])
-    }
+    # LOGGER.info("[%s][%s] Totalling report." % (agency['slug'], 'cust_sat'))
+    # eligible = eligible_for('cust_sat', domains, agency)
+    # agency['cust_sat'] = {
+    #   'eligible': len(eligible),
+    #   'participating': len([report for report in eligible if report['participating']])
+    # }
 
 # Create a Report about each tracked stat.
 def full_report(domains, subdomains):
@@ -695,23 +664,23 @@ def full_report(domains, subdomains):
   full = {}
 
   # HTTPS. Parent and subdomains.
-  print("[https] Totalling full report.")
+  LOGGER.info("[https] Totalling full report.")
   eligible = eligible_for('https', domains) + eligible_for('https', subdomains)
   full['https'] = total_https_report(eligible)
 
-  print("[crypto] Totalling full report.")
+  LOGGER.info("[crypto] Totalling full report.")
   eligible = [domain['https'] for name, domain in domains.items() if domain.get('https') and (domain['https'].get('rc4') is not None)]
   eligible = eligible + [subdomain['https'] for name, subdomain in subdomains.items() if subdomain.get('https') and (subdomain['https'].get('rc4') is not None)]
   full['crypto'] = total_crypto_report(eligible)
 
   # Special separate report for preloaded parent domains.
   # All parent domains, whether they use HTTP or not, are eligible.
-  print("[preloading] Totalling full report.")
+  LOGGER.info("[preloading] Totalling full report.")
   eligible = [host['https'] for hostname, host in domains.items()]
   full['preloading'] = total_preloading_report(eligible)
 
   # Analytics. Parent domains only.
-  print("[analytics] Totalling full report.")
+  LOGGER.info("[analytics] Totalling full report.")
   eligible = eligible_for('analytics', domains)
   participating = 0
   for report in eligible:
@@ -725,25 +694,25 @@ def full_report(domains, subdomains):
 
   # a11y report. Parent domains.
   # Constructed very differently.
-  print("[a11y] Totalling full report.")
-  eligible_domains = [host for hostname, host in domains.items() if (host.get('a11y') and host['a11y']['eligible'])]
-  full['a11y'] = {}
-  for domain in eligible_domains:
-    full['a11y'][domain['domain']] = domain['a11y']['error_details']
+  # LOGGER.info("[a11y] Totalling full report.")
+  # eligible_domains = [host for hostname, host in domains.items() if (host.get('a11y') and host['a11y']['eligible'])]
+  # full['a11y'] = {}
+  # for domain in eligible_domains:
+  #   full['a11y'][domain['domain']] = domain['a11y']['error_details']
 
 
   # Customer satisfaction report. Parent domains.
-  print("[cust_sat] Totalling full report.")
-  eligible = eligible_for('cust_sat', domains)
+  # LOGGER.info("[cust_sat] Totalling full report.")
+  # eligible = eligible_for('cust_sat', domains)
 
-  participating = 0
-  for report in eligible:
-    if report['participating']:
-      participating += 1
-  full['cust_sat'] = {
-    'eligible': len(eligible),
-    'participating': participating
-  }
+  # participating = 0
+  # for report in eligible:
+  #   if report['participating']:
+  #     participating += 1
+  # full['cust_sat'] = {
+  #   'eligible': len(eligible),
+  #   'participating': participating
+  # }
 
   return full
 
@@ -755,7 +724,6 @@ def eligible_for_https(domain):
   )
 
 def eligible_for_analytics(domain):
-  return False
   return (
     (domain["live"] == True) and
     (domain["redirect"] == False) and
@@ -769,7 +737,6 @@ def eligible_for_analytics(domain):
   )
 
 def eligible_for_a11y(domain):
-  return False
   return (
     (domain["live"] == True) and
     (domain["redirect"] == False) and
@@ -777,7 +744,6 @@ def eligible_for_a11y(domain):
   )
 
 def eligible_for_cust_sat(domain):
-  return False
   return (
     (domain["live"] == True) and
     (domain["redirect"] == False) and
@@ -849,6 +815,7 @@ def cust_sat_report_for(domain_name, domain, parent_scan_data):
 # fill in a dict with the conclusions.
 def https_behavior_for(name, pshtt, sslyze, parent_preloaded=None):
   report = {
+    'hostname': name,
     'eligible': True
   }
 
@@ -924,6 +891,7 @@ def https_behavior_for(name, pshtt, sslyze, parent_preloaded=None):
   # Otherwise, without HTTPS there can be no HSTS for the domain directly.
   elif (https <= 0):
     hsts = -1  # N/A (considered 'No')
+
   else:
 
     # HSTS is present for the canonical endpoint.
@@ -969,7 +937,7 @@ def https_behavior_for(name, pshtt, sslyze, parent_preloaded=None):
     bod_crypto = -1 # N/A
 
   elif sslyze is None:
-    # print("[https][%s] No sslyze scan data found." % name)
+    # LOGGER.info("[https][%s] No sslyze scan data found." % name)
     bod_crypto = -1 # Unknown
 
   else:
@@ -1107,57 +1075,34 @@ def total_preloading_report(eligible):
 
 # Hacky helper - print out the %'s after the command finishes.
 def print_report(report):
-  print()
 
   for report_type in report.keys():
     # The a11y report has a very different use than the others
-    if report_type == "report_date" or report_type == "a11y" or report_type == "report_type":
+    if report_type == "report_date" or report_type == "a11y":
       continue
 
-    print("[%s]" % report_type)
+    LOGGER.info("[%s]" % report_type)
     eligible = report[report_type]["eligible"]
     for key in report[report_type].keys():
       if key == "eligible":
-        print("%s: %i" % (key, report[report_type][key]))
+        LOGGER.info("%s: %i" % (key, report[report_type][key]))
       else:
-        print("%s: %i%% (%i)" % (key, percent(report[report_type][key], eligible), report[report_type][key]))
-    print()
-
-
-
-# Given a list of domains or subdomains, quick filter to which
-# are eligible for this report, optionally for an domain_type.
-def eligible_for_type(report, hosts, domain_type=None):
-  return [host[report] for hostname, host in hosts.items() if (host.get(report) and host[report]['eligible'] and (host['domain_type'] == domain_type))]
-
-
-# Create a Report about each tracked stat.
-def typed_report(domain_type, domains, subdomains):
-
-  full = {}
-  full['report_type'] = domain_type
-
-  # HTTPS. Parent and subdomains.
-  print("[https] Totalling report for %s." % (domain_type))
-  eligible = eligible_for_type('https', domains, domain_type) + eligible_for_type('https', subdomains, domain_type)
-  full['https'] = total_https_report(eligible)
-
-  return full
+        LOGGER.info("%s: %i%% (%i)" % (key, percent(report[report_type][key], eligible), report[report_type][key]))
 
 
 ### utilities
 
 def shell_out(command, env=None):
-    try:
-        print("[cmd] %s" % str.join(" ", command))
-        response = subprocess.check_output(command, shell=False, env=env)
-        output = str(response, encoding='UTF-8')
-        print(output)
-        return output
-    except subprocess.CalledProcessError:
-        logging.warn("Error running %s." % (str(command)))
-        exit(1)
-        return None
+  try:
+    LOGGER.info("[cmd] %s" % str.join(" ", command))
+    response = subprocess.check_output(command, shell=False, env=env)
+    output = str(response, encoding='UTF-8')
+    LOGGER.info(output)
+    return output
+  except subprocess.CalledProcessError:
+    logging.critical("Error running %s." % (str(command)))
+    exit(1)
+    return None
 
 def percent(num, denom):
   if denom == 0: return 0 # for shame!
@@ -1166,56 +1111,44 @@ def percent(num, denom):
 # mkdir -p in python, from:
 # https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python
 def mkdir_p(path):
-    try:
-        os.makedirs(path)
-    except OSError as exc:  # Python >2.5
-        if exc.errno == errno.EEXIST:
-            pass
-        else:
-            raise
+  try:
+    os.makedirs(path)
+  except OSError as exc:  # Python >2.5
+    if exc.errno == errno.EEXIST:
+      pass
+    else:
+      raise
 
 def write(content, destination, binary=False):
-    mkdir_p(os.path.dirname(destination))
+  mkdir_p(os.path.dirname(destination))
 
-    if binary:
-        f = open(destination, 'bw')
-    else:
-        f = open(destination, 'w', encoding='utf-8')
-    f.write(content)
-    f.close()
+  if binary:
+    f = open(destination, 'bw')
+  else:
+    f = open(destination, 'w', encoding='utf-8')
+  f.write(content)
+  f.close()
 
 
 def boolean_for(string):
   if string == "False":
     return False
-  else:
+  elif string == "True":
     return True
-
-def branch_for(agency):
-  if agency in [
-    "Library of Congress",
-    "The Legislative Branch (Congress)",
-    "Government Printing Office",
-    "Government Publishing Office",
-    "Congressional Office of Compliance",
-    "Stennis Center for Public Service",
-    "U.S. Capitol Police",
-    "Architect of the Capitol"
-  ]:
-    return "legislative"
-
-  if agency in [
-    "The Judicial Branch (Courts)",
-    "The Supreme Court",
-    "U.S Courts"
-  ]:
-    return "judicial"
-
-  if agency in ["Non-Federal Agency"]:
-    return "non-federal"
-
   else:
-    return "executive"
+    return None
+
+# Can only be split from federal domain types.
+# Returns None if given a non-federal domain type.
+def branch_for(domain_type):
+  if (not domain_type.startswith("Federal Agency - ")):
+    return None
+
+  branch = domain_type.replace("Federal Agency - ", "")
+  branch = branch.lower().strip()
+
+  return branch
+
 
 def nice_domain_type_for(domain_type):
   if domain_type == 'City':

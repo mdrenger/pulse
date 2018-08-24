@@ -30,6 +30,9 @@ data:
   # so this is relying on occasional snapshots which can be updated in-place in the repo.
   rdns_snapshot_url: ""
 
+  # Some other websites, collected and curated by GSA and DHS.
+  other_subdomains_url: ""
+
 a11y:
   config: ""
   redirects: ""

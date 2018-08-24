@@ -16,6 +16,10 @@ from data.env import *
 
 # Import processing just for the function call.
 import data.processing
+from data import logger
+
+LOGGER = logger.get_logger(__name__)
+
 
 # Orchestrate the overall regular Pulse update process.
 #
@@ -67,40 +71,29 @@ def run(options):
   if scan_mode == "here":
     # 1a. Gather .gov federal subdomains.
     if gather_mode == "here":
-      print("Gathering subdomains.")
-      print()
+      LOGGER.info("Gathering subdomains.")
       gather_subdomains(options)
-      print()
-      print("Subdomain gathering complete.")
-      print()
+      LOGGER.info("Subdomain gathering complete.")
     elif gather_mode == "skip":
-      print("Skipping subdomain gathering.")
-      print()
+      LOGGER.info("Skipping subdomain gathering.")
 
     # 1b. Scan subdomains for some types of things.
-    print("Scanning subdomains.")
-    print()
+    LOGGER.info("Scanning subdomains.")
     scan_subdomains(options)
-    print()
-    print("Subdomain scanning complete")
-    print()
+    LOGGER.info("Subdomain scanning complete")
 
     # 1c. Scan parent domains for all types of things.
-    print("Scanning parent domains.")
-    print()
+    LOGGER.info("Scanning parent domains.")
     scan_parents(options)
-    print()
-    print("Scan of parent domains complete.")
+    LOGGER.info("Scan of parent domains complete.")
   elif scan_mode == "download":
-    print("Downloading latest production scan data from S3.")
-    print()
+    LOGGER.info("Downloading latest production scan data from S3.")
     download_s3()
-    print()
-    print("Download complete.")
+    LOGGER.info("Download complete.")
 
   # Sanity check to make sure we have what we need.
   if not os.path.exists(os.path.join(PARENTS_RESULTS, "meta.json")):
-    print("No scan metadata downloaded, aborting.")
+    LOGGER.info("No scan metadata downloaded, aborting.")
     exit()
 
   # Date can be overridden if need be, but defaults to meta.json.
@@ -113,21 +106,17 @@ def run(options):
 
 
   # 2. Process and load data into Pulse's database.
-  print("[%s] Loading data into Pulse." % the_date)
-  print()
+  LOGGER.info("[%s] Loading data into Pulse." % the_date)
   data.processing.run(the_date, options)
-  print()
-  print("[%s] Data now loaded into Pulse." % the_date)
+  LOGGER.info("[%s] Data now loaded into Pulse." % the_date)
 
   # 3. Upload data to S3 (if requested).
   if options.get("upload", False):
-    print("[%s] Syncing scan data and database to S3." % the_date)
-    print()
+    LOGGER.info("[%s] Syncing scan data and database to S3." % the_date)
     upload_s3(the_date)
-    print()
-    print("[%s] Scan data and database now in S3." % the_date)
+    LOGGER.info("[%s] Scan data and database now in S3." % the_date)
 
-  print("[%s] All done." % the_date)
+  LOGGER.info("[%s] All done." % the_date)
 
 
 # Upload the scan + processed data to /live/ and /archive/ locations by date.
@@ -202,22 +191,29 @@ def scan_parents(options):
   scanners = "--scan=%s" % (str.join(",", SCANNERS))
   analytics = "--analytics=%s" % ANALYTICS_URL
   output = "--output=%s" % PARENTS_DATA
-  a11y_redirects = "--a11y_redirects=%s" % A11Y_REDIRECTS
-  a11y_config = "--a11y_config=%s" % A11Y_CONFIG
+  a11y_redirects = "--a11y-redirects=%s" % A11Y_REDIRECTS
+  a11y_config = "--a11y-config=%s" % A11Y_CONFIG
 
   full_command =[
     SCAN_COMMAND, DOMAINS,
     scanners,
     # analytics, a11y_config, a11y_redirects,
     output,
-    "--sslyze-certs=false", # ugh, temporary
     # "--debug", # always capture full output
-    "--sort"
+    "--sort",
+    "--meta"
   ]
 
   # Allow some options passed to python -m data.update to go
   # through to domain-scan.
-  for flag in ["cache", "serial", "lambda", "lambda-profile"]:
+  # Boolean flags.
+  for flag in ["cache", "serial", "lambda"]:
+    value = options.get(flag)
+    if value:
+      full_command += ["--%s" % flag]
+
+  # Flags with values.
+  for flag in ["lambda-profile"]:
     value = options.get(flag)
     if value:
       full_command += ["--%s=%s" % (flag, str(value))]
@@ -231,7 +227,7 @@ def scan_parents(options):
 
 # Use domain-scan to gather .gov domains from public sources.
 def gather_subdomains(options):
-  print("[gather] Gathering subdomains.")
+  LOGGER.info("[gather] Gathering subdomains.")
 
   full_command = [GATHER_COMMAND]
 
@@ -243,6 +239,7 @@ def gather_subdomains(options):
   full_command += [
     "--output=%s" % SUBDOMAIN_DATA_GATHERED,
     "--suffix=%s" % GATHER_SUFFIXES,
+    "--parents=%s" % DOMAINS,
     "--ignore-www",
     "--sort",
     "--debug" # always capture full output
@@ -259,7 +256,7 @@ def gather_subdomains(options):
 
 # Run pshtt on each gathered set of subdomains.
 def scan_subdomains(options):
-  print("[scan] Scanning subdomains.")
+  LOGGER.info("[scan] Scanning subdomains.")
 
   subdomains = os.path.join(SUBDOMAIN_DATA_GATHERED, "results", "gathered.csv")
 
@@ -268,17 +265,25 @@ def scan_subdomains(options):
     subdomains,
     "--scan=%s" % str.join(",", SUBDOMAIN_SCANNERS),
     "--output=%s" % SUBDOMAIN_DATA_SCANNED,
-    "--sslyze-certs=false", # ugh, temporary
     # "--debug", # always capture full output
-    "--sort"
+    "--sort",
+    "--meta"
   ]
 
   # Allow some options passed to python -m data.update to go
   # through to domain-scan.
-  for flag in ["cache", "serial", "lambda", "lambda-profile"]:
+  # Boolean flags.
+  for flag in ["cache", "serial", "lambda"]:
+    value = options.get(flag)
+    if value:
+      full_command += ["--%s" % flag]
+
+  # Flags with values.
+  for flag in ["lambda-profile"]:
     value = options.get(flag)
     if value:
       full_command += ["--%s=%s" % (flag, str(value))]
+
 
   # If Lambda mode is on, use way more workers.
   if options.get("lambda") and (options.get("serial", None) is None):
@@ -292,13 +297,13 @@ def scan_subdomains(options):
 
 def shell_out(command, env=None):
     try:
-        print("[cmd] %s" % str.join(" ", command))
+        LOGGER.info("[cmd] %s" % str.join(" ", command))
         response = subprocess.check_output(command, shell=False, env=env)
         output = str(response, encoding='UTF-8')
-        print(output)
+        LOGGER.info(output)
         return output
     except subprocess.CalledProcessError:
-        logging.warn("Error running %s." % (str(command)))
+        LOGGER.critical("Error running %s." % (str(command)))
         exit(1)
         return None
 
