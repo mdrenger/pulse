@@ -223,10 +223,9 @@ def load_domain_data():
       agency_slug = slugify.slugify(agency_name)
       state = ''
 
-      ## FIXME
-      #if domain_type != "federal":
-      #  agency_name = row[3].strip() # City
-      #  state = row[4].strip()
+      if domain_type != "federal":
+        agency_name = dict_row['City'].strip()
+        state = dict_row['State'].strip()
 
       agency_slug = slugify.slugify(agency_name)
 
@@ -239,8 +238,8 @@ def load_domain_data():
 
       # There is one federal domain with an agency of "Non-Federal Agency",
       # based in Puerto Rico. Ambiguous whether to include it.
-      if agency_name == "Non-Federal Agency":
-        continue
+      #if agency_name == "Non-Federal Agency":
+      #  continue
 
       # Extract legislative/judicial/executive from the domain type.
       #branch = branch_for(domain_type)
@@ -1078,7 +1077,7 @@ def print_report(report):
 
   for report_type in report.keys():
     # The a11y report has a very different use than the others
-    if report_type == "report_date" or report_type == "a11y":
+    if report_type == "report_date" or report_type == "a11y" or report_type == "report_type":
       continue
 
     LOGGER.info("[%s]" % report_type)
@@ -1089,6 +1088,35 @@ def print_report(report):
       else:
         LOGGER.info("%s: %i%% (%i)" % (key, percent(report[report_type][key], eligible), report[report_type][key]))
 
+# Given a list of domains or subdomains, quick filter to which
+# are eligible for this report, optionally for an domain_type.
+def eligible_for_type(report, hosts, domain_type=None):
+  return [host[report] for hostname, host in hosts.items() if (host.get(report) and host[report]['eligible'] and (host['domain_type'] == domain_type))]
+
+# Create a Report about each tracked stat.
+def typed_report(domain_type, domains, subdomains):
+
+  full = {}
+  full['report_type'] = domain_type
+
+  # HTTPS. Parent and subdomains.
+  LOGGER.info("[https] Totalling report for %s." % (domain_type))
+  eligible = eligible_for_type('https', domains, domain_type) + eligible_for_type('https', subdomains, domain_type)
+  full['https'] = total_https_report(eligible)
+
+  # Separate report for crypto, for sslyze-scanned domains.
+  LOGGER.info("[crypto] Totalling full report.")
+  eligible = [domain['https'] for name, domain in domains.items() if domain.get('https') and (domain['https'].get('rc4') is not None) and (domain['domain_type'] == domain_type)]
+  eligible = eligible + [subdomain['https'] for name, subdomain in subdomains.items() if subdomain.get('https') and (subdomain['https'].get('rc4') is not None and (subdomain['domain_type'] == domain_type))]
+  full['crypto'] = total_crypto_report(eligible)
+
+  # Special separate report for preloaded parent domains.
+  # All parent domains, whether they use HTTP or not, are eligible.
+  LOGGER.info("[preloading] Totalling full report.")
+  eligible = [host['https'] for hostname, host in domains.items() if (host['domain_type'] == domain_type)]
+  full['preloading'] = total_preloading_report(eligible)
+
+  return full
 
 ### utilities
 
