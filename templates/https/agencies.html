@@ -36,5 +36,7 @@
 </section>
 
 <script src="{{ url_for('static', filename='js/https/agencies.js') }}?{{ now() | date("%Y%m%j%H%M%S") }}"
-        data-agency-report-url="{{ url_for('agency_report', report_name=report_name) }}"></script>
+        data-domain-type="{{ domain_type }}"
+        data-agency-report-url="{{ url_for('agency_report', report_name=report_name) }}"
+        data-agency-report-csv-url="{{ url_for('domain_report', report_name=report_name, ext='csv') }}"></script>
 {% endblock %}
