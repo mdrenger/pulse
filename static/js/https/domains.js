@@ -41,9 +41,9 @@ $(function () {
         },
         {data: "agency_name"}, // here for filtering/sorting
         {
-          data: "totals.https.compliant",
+          data: "totals.https.uses",
           type: "numeric",
-          render: Tables.percentTotals("https", "compliant"),
+          render: Tables.percentTotals("https", "uses"),
           width: "100px",
           className: "compliant"
         },
@@ -175,8 +175,8 @@ $(function () {
       var link = "<a href=\"" + host.canonical + "\" target=\"blank\">" + Utils.truncate(host.domain, 35) + "</a>";
       details.append($("<td/>").addClass("link").html(link));
 
-      var compliant = names.compliant[host.https.compliant];
-      details.append($("<td class=\"compliant\"/>").html(compliant));
+      var uses = names.uses[host.https.uses];
+      details.append($("<td class=\"compliant\"/>").html(uses));
 
       var https = names.enforces[host.https.enforces];
       details.append($("<td/>").html(https));
