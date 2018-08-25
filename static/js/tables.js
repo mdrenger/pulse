@@ -89,9 +89,10 @@ var Tables = {
 
   // common render helper for percent bars
   percentBar: function(data) {
+    var over50 = (data >= 50) ? 'over50' : '';
     return '' +
       '<div class="progress-bar-indication">' +
-        '<span class="meter width' + data + '" style="width: ' + data + '%">' +
+        '<span class="meter ' + over50 + ' width' + data + '" style="width: ' + data + '%">' +
           '<p>' + data + '%</p>' +
         '</span>' +
       '</div>';
