@@ -262,6 +262,13 @@ table caption {
           @for $i from 1 through 3 {
             &.width#{$i} { background-color: transparent }
           }
+
+          &.over50 {
+            color: white;
+          }
+          &.over50.width100 {
+            color: $dark-gray;
+          }
         }
       }
 

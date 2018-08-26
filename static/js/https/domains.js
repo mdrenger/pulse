@@ -42,20 +42,24 @@ $(function () {
         {data: "agency_name"}, // here for filtering/sorting
         {
           data: "totals.https.uses",
+          type: "numeric",
           render: Tables.percentTotals("https", "uses"),
           width: "100px",
           className: "compliant"
         },
         {
           data: "totals.https.enforces",
+          type: "numeric",
           render: Tables.percentTotals("https", "enforces")
         },
         {
           data: "totals.https.hsts",
+          type: "numeric",
           render: Tables.percentTotals("https", "hsts")
         },
         {
           data: "totals.crypto.bod_crypto",
+          type: "numeric",
           render: Tables.percentTotals("crypto", "bod_crypto")
         },
         {
@@ -159,6 +163,7 @@ $(function () {
       var discoveryLink = l("/https/guidance/#subdomains", "publicly discoverable services");
       var link = "Showing data for " + number + " " + discoveryLink + " within " + base_domain + ".&nbsp;&nbsp;";
       link += l(csv, "Download all " + base_domain + " data as a CSV") + ".";
+      // link += " Email " + l("mailto:pulse@cio.gov", "pulse@cio.gov") + " with questions.";
       var download = $("<tr></tr>").addClass("subdomain").html("<td class=\"link\" colspan=6>" + link + "</td>");
       all.push(download);
     }
@@ -171,7 +176,7 @@ $(function () {
       details.append($("<td/>").addClass("link").html(link));
 
       var uses = names.uses[host.https.uses];
-      details.append($("<td class=\"uses\"/>").html(uses));
+      details.append($("<td class=\"compliant\"/>").html(uses));
 
       var https = names.enforces[host.https.enforces];
       details.append($("<td/>").html(https));
@@ -236,7 +241,7 @@ $(function () {
           link.addClass("loading").html("Loading " + base_domain + " services...");
 
           $.ajax({
-            url: "/data/hosts/" + base_domain + "/https.json",
+            url: "/data/hosts/" + base_domain + "/https.json" + Utils.cacheBust(),
             success: function(response) {
               loadHostData(row, base_domain, response.data);
 
